@@ -1,0 +1,494 @@
+<style type="text/css">
+    .CODE {
+		border: 1px solid black;
+		background-color: #EEEEEE;
+		color: navy;
+    }
+</style>
+<div style="width:600px;font-size:12px;font-family:verdana">
+Ader TemplateEngine 1.0 Documentation<br>
+Andrew Deren - andrew@adersoftware.com <br>
+Aug. 31, 2004<br>
+<br>
+
+
+Ader <b>TemplateEngine</b> is a .NET class library (written in C#) for generating text output from source template and input parameters.
+It can be used in many scenarios: website page building, email generation, xml generation, source code generation, etc.
+It's idea is based on antlr stringTemplate (http://www.stringtemplate.org/), but the syntax is based on cold fusion language.
+<br>
+<br>
+Currently only .NET AderTemplateEngine works with .NET 2.0 only, but I have plans on making it work with .NET 1.0/1.1 and maybe Java.
+<br>
+Ader TemplateEngine is released under GNU General Public License.
+<br>
+<br>Here is a very simple template:<br>
+<pre class="code">
+Thank You for your order #order.billFirstName# #order.billLastName#.
+&lt;br&gt;
+Your Order Total is: #format(order.total, "C")#
+</pre>
+
+The templates can have expressions, if/elseif/else statement, foreach statement and other templates.
+<br>
+<br>
+<b>Templates API:</b>
+There are 2 classes mainly used in Template Engine: Template and TemplateManager.
+<br>
+Template holds a single instance of a template and TemplateManager is used for executing templates.
+<br>
+Easiest way of creating Templates is by using static methods of Template or TemplateManager:
+<pre class="CODE">
+Template template = Template.FromString(string name, string data)
+Template template = Template.FromFile(string name, string filename)
+</pre>
+then you use it to instantilate TemplateManager.
+<pre class="CODE">
+TemplateManager mngr = new TemplateManager(template);
+</pre>
+or even easier:
+<pre class="CODE">
+TemplateManager mngr = TemplateManager.FromFile(filename);
+TemplateManager mngr = TemplateManager.FromString(template);
+</pre>
+when using FromString method, the string passed contains template code. This method can be used
+to dynamically generate text without having templates in files.
+<br>
+You use SetValue(string name, object value); to add values that can be used within the templates.
+<br>
+Ex:
+<pre class="CODE">
+mngr.SetValue("customer", new Customer("Tom", "Jackson"));
+</pre>
+
+then you can refer to customer within the template. You can use any type of object for value.
+When the value of variable is to be output ToString() method will be called.
+<br>
+<br>
+
+<b>- Expressions</b>
+<br>
+Expressions are enclosed with # (hash or pound) characters:
+<br>
+ex. 
+<br>
+#firstName#
+<br>
+<br>
+This example will output value of first name. If you need to output # character, just escape it with another #.
+<br>
+ex.
+<br>
+Your SS## is #ssnumber#
+<br>
+<br>
+Inside of expression block you can output any variable:
+<br>
+#somevar#
+<br>
+<br>
+access property of a variable:
+<br>
+#somestring.Length#
+<br>
+<br>
+property name is not case senstivie. So you can call: #string.length# or #string.LENGTH#
+<br>
+<br>
+or call a function:
+<br>
+#trim(somename)#
+<br>
+<br>
+There are several built in functions and additional functions can be easily added.		
+The built in functions are:
+<br>
+<b>equals(obj1, obj2)</b> - invokes equals method on obj1 with obj2 as parameter. Returns boolean value.
+<br>
+<br>
+<b>notequals(obj1, obj2)</b> - Returns !equals(obj1, obj2). Is equavilant to calling: not(equals(obj1, obj2))
+<br>
+<br>
+<b>iseven(num)</b> - tests whether number is an even number
+<br>
+<br>
+<b>isodd(num)</b> - tests whether number is an odd number
+<br>
+<br>
+<b>isempty(string)</b> - test whether string has 0 characters. Same as equals(string.Length, 0)
+<br>
+<br>
+<b>isnotempty(string)</b> - tests whether string has at least 1 character.
+<br>
+<br>
+<b>isnumber(num)</b> - tests whether num is of numeric type
+<br>
+<br>
+<b>toupper(string)</b> - converts string to upper case
+<br>
+<br>
+<b>tolower(string)</b> - converts string to lower case
+<br>
+<br>
+<b>isdefined(varname)</b> - tests whether variable named varname is defined
+<br>
+<br>
+<b>ifdefined(varname, value)</b> - returns value if varname is defined. Especiall useful: #ifdefined("name", name)# - will output value of name if it's defined, otherwise will output nothing
+<br>
+<br>
+<b>len(string)</b> - returns length of string
+<br>
+<br>
+<b>tolist(collection, property, delim)</b> - will convert collection to string with delim as seperator. If you pass property, 
+	the value of the property will be evaluated on each element of collection. If you omit property, then the object itself
+	will be used.
+<br>
+	Ex:
+<br>
+	suppose you have list as:
+<br>
+<pre class="CODE">
+	ArrayList list = new ArrayList();
+	list.Add("one");
+	list.Add("two");
+	list.Add("three");
+	template.SetValue("mylist", list);
+</pre>	
+	then in your template:
+<br>
+	#toList(mylist, " & ")#
+<br>
+	the output will be:	one & two & three
+<br>
+<br>
+	suppose you have list as:
+<pre class="CODE">
+	list.Add(new Customer("Tom", "Whatever"));
+	list.Add(new Customer("Henry", "III"));
+	list.Add(new Customer("Tom", "Jackson"));
+	template.SetValue("mylist", list);
+</pre>	
+	then in template:
+<br>
+	#toList(mylist, "firstName", ",")#
+<br>
+	the output will be: Tom,Henry,Tom
+<br>
+<br>
+	
+<b>isnull(obj)</b> - tests whether obj is null
+<br>
+<br>
+<b>not(boolvalue)</b> - returns not (!) of boolean value
+<br>
+<br>
+<b>iif(booleanExpression, iftruevalue, iffalsevalue)</b> - same as
+	booleanExpression ? iftruevalue : iffalsevalue in C#
+<br>
+	Ex:
+<br>
+	#iif(isodd(i), "bgcolor=yellow", "bgcolor=red")#
+<br>
+	will output bgcolor=yellow if i is odd number and bgcolor=red if i is not odd number
+<br>
+<br>
+	
+<b>format(object, formatstring)</b> - will call ToString(formatstring) on object. Object has to implement
+	IFormattable interface, otherwise ToString() will be called.
+<br>
+	Ex:
+<br>
+	(suppose total is decimal with value 1208.45)
+<br>
+	#format(total, "C")# 
+<br>
+	will output: $1,208.45
+<br>
+<br>
+	
+<b>trim(string)</b> - will trim string object
+<br>
+<br>
+
+<b>filter(collection, booleanproperty)</b> - will return new List from collection for those objects
+	whose booleanproperty property evaluates to true
+<br>
+<br>
+<b>gt(obj1, obj2) </b>- will return true if obj1 &gt; obj2 (obj1 and obj2 must implement IComparable. All numeric types do)
+<br>
+<br>
+<b>lt(obj1, obj2)</b> - will return true if obj1 &lt; obj2 (obj1 and obj2 must implement IComparable. All numeric types do)
+<br>
+<br>
+<b>compare(obj1, obj2)</b> - will return -1 if obj1 &lt; obj2, 0 is obj1 == obj2, and 1 if obj1 &gt; obj2 (obj1 and obj2 must implement IComparable. All numeric types do)
+<br>
+<br>
+<b>or(bool1, bool2)</b> - will return true if either bool1 or bool2 are true
+<br>
+	ex:
+<br>
+	#or(equals(state, "IL"), equals(state, "NY"))# - returns true if state is either IL or NY
+<br>
+<br>
+
+<b>and(bool1, bool2)</b> - will return true if both bool1 and bool2 are true
+<br>
+<br>
+
+<b>comparenocase(string1, string2)</b> - will do case insenstive comparison of string1 and string2 and return true if they are equal
+<br>
+<br>
+
+<b>stripnewlines(string)</b> - will return all \r\n instances and replace them with space
+<br>
+<br>
+<b>Built In Tags:</b>
+<br>
+<b>IF</b>
+<br>
+You can also conditionally output text based on some expression using special if tag:
+<pre class="CODE">
+&lt;ad:if test="#booleanexpression#"&gt;
+
+&lt;ad:elseif test="#bool#"&gt;
+
+&lt;ad:else&gt;
+
+&lt;/ad:if&gt;
+</pre>
+elseif and else are optional. If test of "if" evaluates to true, then block inside of "if" will be output, otherwise
+elseif will be tested (if exists) and then else.
+<br>
+Ex:
+<br>
+<pre class="CODE">
+&lt;ad:if test="#equals(cust.country, "US"))#"&gt;
+You are US customer.
+&lt;ad:else&gt;
+You are from: #cust.country# country.
+&lt;/ad:if&gt;
+</pre>
+If cust.country is "US" then the output will be: You are US customer.
+<br>
+<br>
+<b>FOREACH</b>
+<br>
+You can loop through collection of elements (any object that implements IEnumerable interface) using FOREACH tag.
+<pre class="CODE">
+&lt;ad:foreach collection="#collection#" var="cust" index="i"&gt;
+#i#: #cust.lastname#, #cust.firstname#
+&lt;/ad:foreach&gt;
+</pre>
+<br>
+Suppose customers is array of customer objects: customers = Customer("Tom", "Jackson"), Customer("Mary", "Foo")
+<br>
+The output will be:
+<br>
+1. Jackson, Tom
+<br>
+2. Foo, Mary
+<br>
+<br>
+During execution, variable name that is passed as var attribute will be assigned with element from the collection.
+Index attribute can be omitted, and is used to represent index variable for the loop. It starts with 1 and gets
+increments with each iteration.
+<br>
+<br>
+<b>Custom Templates:</b>
+<br>
+You can also create your own templates inside of template file that you can call.
+You do that using template tag:
+<pre class="CODE">
+&lt;ad:template name="ShowCustomer"&gt;
+#customer.lastname#, #customer.firstname# 
+&lt;/ad:template&gt;
+
+&lt;ad:showcustomer customer="#cust#" /&gt;
+</pre>
+You can pass any attributes to the template, and you can use those inside of the template.
+The template can also access all variables that are defined outside of the template.
+When calling template you have to put trailing slash at the end, or put closing tag:
+<br>
+&lt;ad:showcustomer /&gt;
+<br>
+or
+<br>
+&lt;ad:showcustomer&gt;&lt;/ad:showcustomer&gt;
+<br>
+<br>
+The template also received special variable: innerText that is the content of executing the inner elements of calling template.
+<pre class="CODE">
+&lt;ad:template name="bold"&gt;
+&lt;b&gt;#innerText#&lt;/b&gt;
+&lt;/ad:template&gt;
+
+&lt;ad:bold&gt;#cust.lastname#, #cust.firstname#&lt;/ad:bold&gt;
+</pre>
+the output will be:
+&lt;b&gt;Jackson, Tom&lt;/b&gt;
+(if customer is Tom Jackson)
+<br>
+<br>
+You can also nest those:
+<pre class="CODE">
+&lt;ad:template name="italic"&gt;#innerText#&lt;/ad:template&gt;
+
+&lt;ad:bold&gt;&lt;ad:italic&gt;This will be bold and italic&lt;/ad:italic&gt;&lt;/ad:bold&gt;
+</pre>
+
+You can also invoke templates based on the name using apply tag:
+<pre class="CODE">
+&lt;ad:apply template="#usetemplate#"&gt;this is content&lt;/ad:apply&gt;
+</pre>
+If usetemplate is "bold" then "bold" template will be called.
+<br>
+<br>
+Templates can be nested inside other template:
+<pre class="CODE">
+&lt;ad:template name="doit"&gt;
+	&lt;ad:template name="colorme"&gt;&lt;font color=#color#&gt;#innerText#&lt;/font&gt;&lt;/ad:template&gt;
+	
+	&lt;ad:colorme color="blue"&gt;colorize me&lt;/ad:colorme&gt;
+&lt;/ad:template&gt;
+</pre>
+colorme template can only be used within doit template.
+<br>
+Tempaltes can also be added programmatically:
+<pre class="CODE">
+TemplateManager mngr = ...;
+mngr.AddTemplate(Template.FromString("bold", "&lt;b&gt;#innerText#&lt;/b&gt;"));
+</pre>
+now bold template can be used anywhere within processing.
+<br>
+<br>
+-------------------------
+Here is a sample based on order confirmation.
+<br>
+<pre class="CODE">
+	class Order
+	{
+		string firstname, lastname, address1, city, state, zip, country;
+
+		public string Address1
+		{
+			get { return this.address1; }
+		}
+
+		public string City
+		{
+			get { return this.city; }
+		}
+
+		public string Country
+		{
+			get { return this.country; }
+		}
+
+		public string Firstname
+		{
+			get { return this.firstname; }
+		}
+
+		public string Lastname
+		{
+			get { return this.lastname; }
+		}
+
+		public string State
+		{
+			get { return this.state; }
+		}
+
+		public string Zip
+		{
+			get { return this.zip; }
+		}
+	}
+	
+	Order order = GetOrder();
+	TemplateManager mngr = TemplateManager.FromFile("order-confirmation.st");
+	mngr.SetValue("order", order);
+	System.IO.StringWriter writer = new System.IO.StringWriter();
+	mngr.Process(writer);
+	
+	string emailBody = writer.ToString();
+</pre>	
+-------------------------------------------
+<br>
+order-confirmation.st
+<br>
+-------------------------------------------
+<br>
+<pre class="CODE">
+&lt;ad:showitem&gt;
+#item.sku# - #item.name#&lt;br&gt;
+&lt;ad:if test="#equals(item.qty, 1)#"&gt;
+Price: #format(item.price, "C")#&lt;br&gt;
+&lt;ad:else&gt;
+You bought #item.qty# items for #format(item.price, "C")# (total: #format(item.total, "C")#)
+&lt;/ad:if&gt;
+&lt;/ad:showitem&gt;
+
+#order.firstname# #order.lastname#&lt;br&gt;
+#order.address1#&lt;br&gt;
+&lt;ad:if test="#isnotempty(order.address2)#"&gt;#order.address2#&lt;br&gt;&lt;/ad:if&gt;
+#order.city#, #order.zip# #order.state#
+&lt;br&gt;
+&lt;table&gt;
+&lt;ad:foreach collection="#order.orderitems#" var="orderitem" index="i"&gt;
+&lt;tr&gt;
+	&lt;td&gt;#i#.&lt;/td&gt;
+	&lt;td bgcolor="#iif(isodd(i), "##DEDEDE", "white")#"&gt;
+	&lt;ad:showitem item="#orderitem#" /&gt;
+	&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/ad:foreach&gt;
+&lt;/table&gt;
+Shipping: #format(order.shipping, "C")#&lt;br&gt;
+Taxes: #format(order.tax, "C")#&lt;br&gt;
+Order Total: #format(order.total, "C")#&lt;br&gt;
+</pre>
+--------------------------------------------
+<br>
+Description of order-confirmation.st
+<br>
+First showitem template is defined which shows a single line item of the order. 
+item is passed as attribute to showitem.
+<br>
+Then address is shown. Note how if is used to conditionally display second line of address with ending &lt;br&gt; tag.
+<br>
+Then each line item of order is looped through using ad:forech tag.
+iif function is used to color everyother line with #DEDEDE color.
+<br>
+<br>
+--------------------------------------------------
+<br>
+Example #2 for constructing complex SQL queries:
+<br>
+--------------------------------------------------
+<br>
+<pre class="CODE">
+string[] cols = new string[]{"id", "name", "email"};
+TemplateManager mngr = TemplateManager.FromFile(file);
+mngr.SetValue("colums", cols);
+mngr.SetValue("tablename", "customer");
+string query = mngr.Process();
+</pre>
+and the template file is:
+<br>
+<pre class="CODE">
+select #toList(columns, ",")# from #tablename#
+</pre>
+<br>
+<br>
+---------------------------------
+<br>
+Example 1 project has 2 sample templates that are used to process the same data. 
+First it outputs it as a C# class to the screen, then it uses html template to create
+html file.
+<br>
+<br>
+If you have any questions, you can use AderTemplates forums at 
+<a href="http://www.adersoftware.com/adertools/" target="_blank">http://www.adersoftware.com/adertools/</a>
+<br>
+<br>
+</div>

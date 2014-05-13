@@ -1,0 +1,45 @@
+﻿using System.Collections.Generic;
+using Helper.DataType;
+namespace $namespace
+{
+
+    public partial class $EntityName
+    {
+#foreach($c in $columns)
+	#if($c.IsAutoIncrement)
+	
+	#end 
+	public $c.ColumnType $c.ColumnName { get; set; }
+#end
+	public string TableName { get { return "$EntityName"; } }
+
+    }
+
+	    public partial class $EntityName : Helper.IDicSerialize
+    {
+
+	public System.Collections.Generic.IDictionary<string, MyField> ToDic()
+        {
+            Dictionary<string, MyField> dic = new Dictionary<string, MyField>();
+   #foreach($c in $columns)
+			#if($c.IsAutoIncrement)
+   dic["$c.ColumnName"] = new MyField(this.$c.ColumnName, typeof($c.ColumnType),true);
+			#end
+			#if(!$c.IsAutoIncrement)
+  dic["$c.ColumnName"] =  new MyField(this.$c.ColumnName, typeof($c.ColumnType));
+			#end
+   #end
+            return dic;
+        }
+
+ public object ToObj(System.Collections.Generic.IDictionary<string, MyField> dic)
+        {
+		#foreach($c in $columns)
+		this.$c.ColumnName =($c.ColumnType)(((MyField)dic["$c.ColumnName"]).Data);
+		#end
+            return this;
+        }
+    }
+
+}
+  

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1008]E:\快盘\project\helper\TestProject1\bin\Debug\TestProject1.dll</TopNode>
+  <SelectedNode>[0-1007]TestProject1.DbMapNetext.TestUpdateMysql</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1008]E:\快盘\project\helper\TestProject1\bin\Debug\TestProject1.dll" Expanded="true" />
+    <Node UniqueName="[0-1009]TestProject1" Expanded="true" />
+    <Node UniqueName="[0-1000]TestProject1.DbMapNetext" Expanded="true" />
+  </Nodes>
+</VisualState>

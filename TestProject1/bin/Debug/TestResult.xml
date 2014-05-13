@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="E:\快盘\project\helper\TestProject1\bin\Debug\TestProject1.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2014-05-11" time="18:29:40">
+  <environment nunit-version="2.6.3.13283" clr-version="2.0.50727.5477" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="E:\快盘\ProjectBin\NUnit-2.6.3\bin" machine-name="WIN-KO9PMBJ9I8G" user="Administrator" user-domain="WIN-KO9PMBJ9I8G" />
+  <culture-info current-culture="zh-CN" current-uiculture="zh-CN" />
+  <test-suite type="Assembly" name="E:\快盘\project\helper\TestProject1\bin\Debug\TestProject1.dll" executed="True" result="Success" success="True" time="0.475" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="TestProject1" executed="True" result="Success" success="True" time="0.466" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="DbMapNetext" executed="True" result="Success" success="True" time="0.465" asserts="0">
+            <results>
+              <test-case name="TestProject1.DbMapNetext.TestUpdateMysql" executed="True" result="Success" success="True" time="0.453" asserts="1" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

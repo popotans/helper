@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Index">
+        <s:complexType />
+      </s:element>
+      <s:element name="IndexResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IndexResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Upload">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="req" type="tns:UploadRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UploadRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SaveVirtualPath" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileBytes" type="s:base64Binary" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UploadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadResult" type="tns:UploadResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UploadResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Msg" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnFilePath" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorDetail" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UploadSoapHeader" type="tns:UploadSoapHeader" />
+      <s:complexType name="UploadSoapHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Pwd" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AuthKey" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="IndexSoapIn">
+    <wsdl:part name="parameters" element="tns:Index" />
+  </wsdl:message>
+  <wsdl:message name="IndexSoapOut">
+    <wsdl:part name="parameters" element="tns:IndexResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoapIn">
+    <wsdl:part name="parameters" element="tns:Upload" />
+  </wsdl:message>
+  <wsdl:message name="UploadSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadUploadSoapHeader">
+    <wsdl:part name="UploadSoapHeader" element="tns:UploadSoapHeader" />
+  </wsdl:message>
+  <wsdl:portType name="UploadSoap">
+    <wsdl:operation name="Index">
+      <wsdl:input message="tns:IndexSoapIn" />
+      <wsdl:output message="tns:IndexSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Upload">
+      <wsdl:input message="tns:UploadSoapIn" />
+      <wsdl:output message="tns:UploadSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UploadSoap" type="tns:UploadSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Index">
+      <soap:operation soapAction="http://tempuri.org/Index" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload">
+      <soap:operation soapAction="http://tempuri.org/Upload" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UploadUploadSoapHeader" part="UploadSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="UploadSoap12" type="tns:UploadSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Index">
+      <soap12:operation soapAction="http://tempuri.org/Index" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Upload">
+      <soap12:operation soapAction="http://tempuri.org/Upload" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UploadUploadSoapHeader" part="UploadSoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Upload">
+    <wsdl:port name="UploadSoap" binding="tns:UploadSoap">
+      <soap:address location="http://localhost:49543/Upload.asmx" />
+    </wsdl:port>
+    <wsdl:port name="UploadSoap12" binding="tns:UploadSoap12">
+      <soap12:address location="http://localhost:49543/Upload.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

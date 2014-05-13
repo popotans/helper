@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3553BAD4-5466-44DE-A909-03581FF248A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Helper</RootNamespace>
+    <AssemblyName>Helper</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.0.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\refs\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\refs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NVelocity">
+      <HintPath>..\refs\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AderTemplate\AdtmplHelper.cs" />
+    <Compile Include="AderTemplate\Parser\AST\Element.cs" />
+    <Compile Include="AderTemplate\Parser\AST\Expression.cs" />
+    <Compile Include="AderTemplate\Parser\AST\FCall.cs" />
+    <Compile Include="AderTemplate\Parser\AST\FieldAccess.cs" />
+    <Compile Include="AderTemplate\Parser\AST\IntLiteral.cs" />
+    <Compile Include="AderTemplate\Parser\AST\Name.cs" />
+    <Compile Include="AderTemplate\Parser\AST\StringExpression.cs" />
+    <Compile Include="AderTemplate\Parser\AST\StringLiteral.cs" />
+    <Compile Include="AderTemplate\Parser\AST\Tag.cs" />
+    <Compile Include="AderTemplate\Parser\AST\TagAttribute.cs" />
+    <Compile Include="AderTemplate\Parser\AST\TagClose.cs" />
+    <Compile Include="AderTemplate\Parser\AST\TagIf.cs" />
+    <Compile Include="AderTemplate\Parser\AST\Text.cs" />
+    <Compile Include="AderTemplate\Parser\ParseException.cs" />
+    <Compile Include="AderTemplate\Parser\TagParser.cs" />
+    <Compile Include="AderTemplate\Parser\TemplateLexer.cs" />
+    <Compile Include="AderTemplate\Parser\TemplateParser.cs" />
+    <Compile Include="AderTemplate\Parser\Token.cs" />
+    <Compile Include="AderTemplate\Settings_user.cs" />
+    <Compile Include="AderTemplate\Template.cs" />
+    <Compile Include="AderTemplate\TemplateManager.cs" />
+    <Compile Include="AderTemplate\TemplateRuntimeException.cs" />
+    <Compile Include="AderTemplate\Util.cs" />
+    <Compile Include="AderTemplate\VariableScope.cs" />
+    <Compile Include="Cache\CacheHelper.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\TxtCache.cs" />
+    <Compile Include="ConfigManager.cs" />
+    <Compile Include="Config\CustomConfig.cs" />
+    <Compile Include="Database\AccessHelper.cs" />
+    <Compile Include="Database\JsonStorager.cs" />
+    <Compile Include="Database\DataMapper.cs" />
+    <Compile Include="Database\MySqlHelper.cs" />
+    <Compile Include="Database\NjhData\NjhData.cs" />
+    <Compile Include="Database\NjhData\NjhDataAbstractProvider.cs" />
+    <Compile Include="Database\NjhData\NjhDataDbColumnAttribute.cs" />
+    <Compile Include="Database\NjhData\NjhDataEntityOPerationMsSql.cs" />
+    <Compile Include="Database\NjhData\NjhDataEntityOPerationMysql.cs" />
+    <Compile Include="Database\NjhData\NjhDataEntityOPerationOledb.cs" />
+    <Compile Include="Database\NjhData\NjhDataSqlExecutor.cs" />
+    <Compile Include="Database\NjhData\NjhDataMySqlProvider.cs" />
+    <Compile Include="Database\NjhData\NjhDataOledbProvider.cs" />
+    <Compile Include="Database\NjhData\NjhDataSqlProvider.cs" />
+    <Compile Include="Database\Dbhelper.cs" />
+    <Compile Include="Database\SqlHelper.cs" />
+    <Compile Include="Database\SqlHelperMS.cs" />
+    <Compile Include="Database\SqlPagingCount.cs" />
+    <Compile Include="Database\SqlStrhelp.cs" />
+    <Compile Include="Database\v2\AccessDB.cs" />
+    <Compile Include="Database\v2\DbMapAccess.cs" />
+    <Compile Include="Database\v2\DbMapBase.cs" />
+    <Compile Include="Database\v2\DicContract.cs" />
+    <Compile Include="Database\v2\IDB.cs" />
+    <Compile Include="Database\v2\DbMapSqlServer.cs" />
+    <Compile Include="Database\v2\ModeCreate\AccessMode.cs" />
+    <Compile Include="Database\v2\ModeCreate\DbColumn.cs" />
+    <Compile Include="Database\v2\ModeCreate\MySqlMode.cs" />
+    <Compile Include="Database\v2\ModeCreate\SqlServerMode.cs" />
+    <Compile Include="Database\v2\MySqlDB.cs" />
+    <Compile Include="Database\v2\SqlServerDB.cs" />
+    <Compile Include="Database\v2\DbMapMySql.cs" />
+    <Compile Include="DataTableHelper.cs" />
+    <Compile Include="DataType\DataType.cs" />
+    <Compile Include="DateHelper.cs" />
+    <Compile Include="DelegateHelper.cs" />
+    <Compile Include="Email\EmailManager.cs" />
+    <Compile Include="Email\MailItem.cs" />
+    <Compile Include="Excep\HelperException.cs" />
+    <Compile Include="ImageHelper.cs" />
+    <Compile Include="Interface\IDicSerialize.cs" />
+    <Compile Include="IO\Filehelper2.cs" />
+    <Compile Include="IO\VelocityHelper.cs" />
+    <Compile Include="Log\MyLog.cs" />
+    <Compile Include="N.cs" />
+    <Compile Include="IO\FileHelper.cs" />
+    <Compile Include="NetAjax\AjaxCoreHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="Security\SecurityHelper.cs" />
+    <Compile Include="Serialize\BinaryHelper.cs" />
+    <Compile Include="Serialize\FastJson.cs" />
+    <Compile Include="Serialize\JsonHelper.cs" />
+    <Compile Include="Serialize\XmlHelper.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="String\RegexHelper.cs" />
+    <Compile Include="String\StringHelper.cs" />
+    <Compile Include="Threading\ScheduleManager.cs" />
+    <Compile Include="Threading\Scheduler.cs" />
+    <Compile Include="Web\CompressWhitespaceModule.cs" />
+    <Compile Include="Web\Entity.cs" />
+    <Compile Include="Web\HttpClient.cs" />
+    <Compile Include="Web\ResponseCatcher.cs" />
+    <Compile Include="Web\UploadService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Web\WebFormBinder\IProperty.cs" />
+    <Compile Include="Web\WebFormBinder\WebFormBinder.cs" />
+    <Compile Include="Web\_UrlHelper.cs" />
+    <Compile Include="Web\UrlRewriter.cs" />
+    <Compile Include="Web\WebHelper.cs" />
+    <Compile Include="Xml\XmlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Asset\" />
+    <Folder Include="Unclassified\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NetAjax\Ajaxnet.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AderTemplate\help.html" />
+    <Content Include="AderTemplate\tmplExample\index.ascx" />
+    <Content Include="AderTemplate\tmplExample\read.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
