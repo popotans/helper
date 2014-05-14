@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Services;
 using System.IO;
+using System.Security.Cryptography;
 namespace Helper.Web
 {
     public class UploadService : System.Web.Services.WebService
@@ -22,26 +23,31 @@ namespace Helper.Web
         {
             UploadResult rs = new UploadResult();
             rs.Msg = "success";
-            rs.ReturnFilePath = req.SaveVirtualPath;
+            rs.Code = 0;
             // check
             string checkRs = CheckAviable(req);
             if (checkRs.Length > 0)
             {
-                rs.Code = 2;
+                rs.Code = 1;
                 rs.Msg = checkRs;
                 return rs;
             }
 
-            if (!CheckAuthKey() && !CheckUser()
-                )
+            if (string.IsNullOrEmpty(req.FileName))
             {
                 rs.Code = 2;
-                rs.Msg = "没有被授权";
+                rs.Msg = "文件名称为空！";
                 return rs;
             }
 
+            if (!CheckSignature())
+            {
+                rs.Code = 3;
+                rs.Msg = "授权失败！";
+                return rs;
+            }
 
-            FileStream fs = new FileStream(HttpContext.Current.Server.MapPath(req.SaveVirtualPath), FileMode.Create, FileAccess.Write);
+            FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "\\" + req.SaveVirtualPath + "\\" + req.FileName, FileMode.CreateNew, FileAccess.ReadWrite);
             try
             {
                 fs.Write(req.FileBytes, 0, req.SaveVirtualPath.Length);
@@ -56,6 +62,7 @@ namespace Helper.Web
                 fs.Close();
                 fs.Dispose();
             }
+            rs.ReturnFilePath = req.SaveVirtualPath + "\\" + req.FileName;
             return rs;
         }
 
@@ -84,16 +91,53 @@ namespace Helper.Web
             return source.IndexOf(tocompare, StringComparison.CurrentCultureIgnoreCase) > -1;
         }
 
-        private bool CheckAuthKey()
+        private string GetAppKey(string appId)
         {
-            return !string.IsNullOrEmpty(header.AuthKey);
+            if (appId == "1")
+                return "key1";
+            else return "none";
         }
-        private bool CheckUser()
+        private bool CheckSignature()
         {
-            if (string.IsNullOrEmpty(header.UserName) || string.IsNullOrEmpty(header.Pwd)) return false;
-            bool check = false;
-            if (header.UserName != header.Pwd) check = true;
-            return check;
+            string keyFromAppid = GetAppKey(header.AppID);
+            string rightSign = CreateSignature(header.AppID + header.Algorithm + keyFromAppid, header.Algorithm, keyFromAppid); ;
+            if (rightSign == header.Signature) return true;
+            return false;
+        }
+        [WebMethod]
+        public string CreateSignature(string data, string algorithm, string authKey)
+        {
+            if (string.IsNullOrEmpty(algorithm))
+            {
+                throw new ArgumentNullException("algorithm", "算法为空");
+            }
+            if (string.IsNullOrEmpty(data))
+            {
+                throw new ArgumentNullException("data", "数据为空");
+            }
+            if (authKey == null)
+            {
+                authKey = string.Empty;
+            }
+            byte[] hash = null;
+            data = string.Format("{0}{1}", data, authKey);
+            data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+            switch (algorithm.ToLower())
+            {
+
+                case "md5":
+                    hash = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(data));
+                    break;
+                case "sha256":
+                    hash = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(data));
+                    break;
+                case "sha512":
+                    hash = SHA512.Create().ComputeHash(Encoding.UTF8.GetBytes(data));
+                    break;
+                default:
+                    throw new Exception("当前不支持以" + algorithm + "为算法的签名");
+            }
+            return Convert.ToBase64String(hash);
         }
     }
 
@@ -108,13 +152,25 @@ namespace Helper.Web
     public class UploadRequest
     {
         public string SaveVirtualPath { get; set; }
+        public string FileName { get; set; }
         public byte[] FileBytes { get; set; }
     }
 
     public class UploadSoapHeader : System.Web.Services.Protocols.SoapHeader
     {
-        public string UserName { get; set; }
-        public string Pwd { get; set; }
-        public string AuthKey { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string AppID { get; set; }
+
+        /// <summary>
+        /// 签名格式：username+pwd+AuthKey
+        /// </summary>
+        public string Signature { get; set; }
+
+        /// <summary>
+        /// 算法 md5，sha256, sha512
+        /// </summary>
+        public string Algorithm { get; set; }
     }
 }

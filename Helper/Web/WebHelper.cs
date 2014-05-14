@@ -343,11 +343,6 @@ namespace Helper.Web
                 HttpWebResponse hwrs = (HttpWebResponse)hwr.GetResponse();
                 Stream myStream = hwrs.GetResponseStream();
                 StreamReader sr = new StreamReader(myStream, Encoding.GetEncoding("utf-8"));
-                //StringBuilder sb = new StringBuilder();
-                //while (-1 != sr.Peek())
-                //{
-                //    sb.Append(sr.ReadLine());
-                //}
                 strResult = sr.ReadToEnd();
                 sr.Close();
                 hwrs.Close();
@@ -390,7 +385,7 @@ namespace Helper.Web
 
         //以POST方式抓取远程页面内容
         //postData为参数列表
-        public static string Post_Http(string url, string postData, string encodeType)
+        public static string PostHttp(string url, string postData, string encodeType)
         {
             string strResult = null;
             try
@@ -416,7 +411,6 @@ namespace Helper.Web
             return strResult;
         }
 
-
         /// <summary>
         /// 将IP地址转为整数形式
         /// </summary>
@@ -431,6 +425,7 @@ namespace Helper.Web
             }
             return o;
         }
+
         /// <summary>
         /// 将整数转为IP地址
         /// </summary>
@@ -455,6 +450,7 @@ namespace Helper.Web
         {
             return UrlHelper.UrlEncode2(url);
         }
+
         /// <summary>
         /// 自定义对url解码
         /// </summary>
@@ -464,7 +460,6 @@ namespace Helper.Web
         public static string DecodeUrl(string encodedUrl)
         {
             return UrlHelper.UrlDecode2(encodedUrl);
-
         }
     }
 

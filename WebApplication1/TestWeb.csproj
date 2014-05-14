@@ -90,6 +90,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\localhost\Upload.disco" />
+    <Content Include="UploadServiceTest.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -234,6 +235,13 @@
     <Compile Include="Upload.asmx.cs">
       <DependentUpon>Upload.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UploadServiceTest.aspx.cs">
+      <DependentUpon>UploadServiceTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UploadServiceTest.aspx.designer.cs">
+      <DependentUpon>UploadServiceTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web References\localhost\Reference.cs">
       <AutoGen>True</AutoGen>

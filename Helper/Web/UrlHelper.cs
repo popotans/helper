@@ -44,7 +44,6 @@ namespace Helper.Web
             HttpContext.Current.Response.StatusCode = 301;
             HttpContext.Current.Response.Status = "301 Moved Permanently";
             HttpContext.Current.Response.AddHeader("Location", url);
-
         }
 
         /// <summary>

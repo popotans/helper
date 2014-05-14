@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace Helper
 {
-    public class MyLog
+    public class MyLog : TraceListener
     {
         private static readonly MyLog log = new MyLog();
 
@@ -19,17 +20,17 @@ namespace Helper
             }
         }
 
-        public void Write(string message)
+        public override void Write(string message)
         {
             WriteFile(message);
         }
 
-        public void WriteLine(string message)
+        public override void WriteLine(string message)
         {
             WriteFile(message);
         }
 
-        public void WriteLine(object o)
+        public override void WriteLine(object o)
         {
             string rs = string.Empty;
             if (o is Exception)
@@ -43,7 +44,7 @@ namespace Helper
             WriteFile(rs);
         }
 
-        public void WriteLine(object o, string category)
+        public override void WriteLine(object o, string category)
         {
             if (string.IsNullOrEmpty(category))
             {
@@ -65,6 +66,26 @@ namespace Helper
             }
         }
 
+        public void Error(string format, params object[] args)
+        {
+            this.WriteLine(string.Format(format, args), "error");
+        }
+
+        public void Info(string format, params object[] args)
+        {
+            this.WriteLine(string.Format(format, args), "info");
+        }
+
+        public void Warn(string format, params object[] args)
+        {
+            this.WriteLine(string.Format(format, args), "Warn");
+        }
+
+        public void Debug(string format, params object[] args)
+        {
+            this.WriteLine(string.Format(format, args), "Warn");
+        }
+
         private void WriteFile(string message)
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory + "\\logs\\";
@@ -75,6 +96,7 @@ namespace Helper
             sw.Close();
             sw.Dispose();
         }
+
         private void WriteFile(string message, string category)
         {
             string folder = AppDomain.CurrentDomain.BaseDirectory + "\\logs\\" + category + "\\";
@@ -87,16 +109,6 @@ namespace Helper
             sw.Close();
             sw.Dispose();
         }
-
-        public void ErrorFormat(string format, params object[] args)
-        {
-            this.WriteLine(string.Format(format, args), "error");
-        }
-
-        public void InfoFormat(string format, params object[] args)
-        {
-            this.WriteLine(string.Format(format, args), "info");
-        }
-
     }
+
 }
