@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 namespace Helper.Str
 {
     public class StringHelper
@@ -14,6 +15,62 @@ namespace Helper.Str
             TimeSpan ts = DateTime.Now - begin;
             string s = (int)ts.TotalMinutes + Convert.ToBase64String(id.ToByteArray()).Replace("+", "!").Replace("/", "$");
             return s;
+        }
+
+        /// <summary>
+        /// 使用UCS2进行编码，用于发送Unicode字符
+        /// </summary>
+        /// <param name="str">短信内容</param>
+        /// <returns>编码结果:\u8042\u519b\u534e</returns>
+        public static string UnicodeEncode(string str)
+        {
+            string outStr = "";
+            if (!string.IsNullOrEmpty(str))
+            {
+                for (int i = 0; i < str.Length; i++)
+                {
+                    //将中文字符转为10进制整数，然后转为16进制unicode字符
+                    outStr += "\\u" + ((int)str[i]).ToString("x");
+                }
+            }
+            return outStr;
+        }
+
+        /// <summary>
+        /// url编码
+        /// </summary>
+        /// <param name="content">要编码的内容</param>
+        /// <param name="lx">类型0:utf-8 1:GB2312 2:GBK</param>
+        /// <returns></returns>
+        public static string UrlEncoding(string url, string encoding)
+        {
+            return HttpUtility.UrlEncode(url, Encoding.GetEncoding(encoding));
+        }
+
+        /// <summary>
+        /// 对UCS2编码进行解码
+        /// </summary>
+        /// <param name="unicodeStr">解码字符串:\u8042\u519b\u534e</param>
+        /// <returns>解码结果:聂</returns>
+        public static string UnicodeDecode(string unicodeStr, string encodingname)
+        {
+            string str = unicodeStr;
+            string outStr = "";
+            string[] strlist = str.Replace("\\", "").Split('u');
+            try
+            {
+                for (int i = 1; i < strlist.Length; i++)
+                {
+                    //将unicode字符转为10进制整数，然后转为char中文字符
+                    outStr += (char)int.Parse(strlist[i], System.Globalization.NumberStyles.HexNumber);
+                }
+            }
+            catch (FormatException ex)
+            {
+                outStr = ex.Message;
+            }
+
+            return outStr;
         }
 
         public static string CreateUniqueIDWithComb()

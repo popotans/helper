@@ -34,9 +34,13 @@ namespace WebApplication1
 
             string s = "聂军华";
 
-            string str1 = Helper.Security.SecurityHelper.Encrypt16(s);
-            Response.Write(str1+"<br/>");
-            Response.Write(Helper.Security.SecurityHelper.Decrypt16(str1));
+            //string str1 = Helper.Security.SecurityHelper.Encrypt16(s);
+            //Response.Write(str1+"<br/>");
+            //Response.Write(Helper.Security.SecurityHelper.Decrypt16(str1));
+            s = Helper.Str.StringHelper.UnicodeEncode(s);
+
+            s = Helper.Str.StringHelper.UnicodeDecode(@"\u8042\u519b\u534e ", "");
+            Response.Write(s);
 
         }
 
