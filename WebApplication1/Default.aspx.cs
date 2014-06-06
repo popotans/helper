@@ -39,7 +39,7 @@ namespace WebApplication1
             //Response.Write(Helper.Security.SecurityHelper.Decrypt16(str1));
             s = Helper.Str.StringHelper.UnicodeEncode(s);
 
-            s = Helper.Str.StringHelper.UnicodeDecode(@"\u8042\u519b\u534e ", "");
+            s = Helper.Str.StringHelper.UnicodeDecode(@"\u5e7f\u5dde\u5927\u5b66\u7eba\u7ec7\u670d\u88c5\u5b66\u9662\u6559\u80b2\u7f51");
             Response.Write(s);
 
         }

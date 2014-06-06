@@ -1,0 +1,10 @@
+E:\Codelib\Git\helper\Helper\bin\Debug\Helper.dll
+E:\Codelib\Git\helper\Helper\bin\Debug\Helper.pdb
+E:\Codelib\Git\helper\Helper\bin\Debug\MySql.Data.dll
+E:\Codelib\Git\helper\Helper\bin\Debug\Newtonsoft.Json.dll
+E:\Codelib\Git\helper\Helper\bin\Debug\NVelocity.dll
+E:\Codelib\Git\helper\Helper\bin\Debug\Newtonsoft.Json.xml
+E:\Codelib\Git\helper\Helper\bin\Debug\NVelocity.xml
+E:\Codelib\Git\helper\Helper\obj\Debug\Helper.csprojResolveAssemblyReference.cache
+E:\Codelib\Git\helper\Helper\obj\Debug\Helper.dll
+E:\Codelib\Git\helper\Helper\obj\Debug\Helper.pdb

@@ -52,7 +52,7 @@ namespace Helper.Str
         /// </summary>
         /// <param name="unicodeStr">解码字符串:\u8042\u519b\u534e</param>
         /// <returns>解码结果:聂</returns>
-        public static string UnicodeDecode(string unicodeStr, string encodingname)
+        public static string UnicodeDecode(string unicodeStr)
         {
             string str = unicodeStr;
             string outStr = "";
