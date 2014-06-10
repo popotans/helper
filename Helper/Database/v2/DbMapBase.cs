@@ -13,7 +13,7 @@ namespace Helper
         internal string _EndChar { get; set; }
         internal string _ParameterChar { get; set; }
 
-        public IDb db
+        public IDb DbContext
         {
             get;
             set;
@@ -61,8 +61,8 @@ namespace Helper
 
         protected void InitDbChar()
         {
-            this._BeginChar = GetDbSpecChara(db);
-            this._EndChar = GetDbSpecCharb(db);
+            this._BeginChar = GetDbSpecChara(DbContext);
+            this._EndChar = GetDbSpecCharb(DbContext);
         }
 
         protected virtual string GeneralInsert<T>(T t, ref IDbDataParameter[] paramArr) where T : BaseMap, new()
@@ -260,7 +260,7 @@ namespace Helper
         public virtual T Get<T>(string sql, params IDbDataParameter[] param) where T : BaseMap, new()
         {
             IDataReader reader = null;
-            using (reader = db.GetReader(sql, param))
+            using (reader = DbContext.GetReader(sql, param))
             {
                 if (reader.Read())
                 {
@@ -277,7 +277,7 @@ namespace Helper
         public List<T> GetList<T>(string sql, params IDbDataParameter[] sps) where T : BaseMap
         {
             List<T> list = new List<T>();
-            using (IDataReader reader = db.GetReader(sql, sps))
+            using (IDataReader reader = DbContext.GetReader(sql, sps))
             {
                 while (reader.Read())
                 {
@@ -295,21 +295,21 @@ namespace Helper
             IDbDataParameter[] paramArr = null;
             string sql = GeneralInsert<T>(t, ref paramArr);
 
-            return db.ExecNonQuery(sql, paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
         }
 
         public virtual int Update<T>(T t) where T : BaseMap, new()
         {
             IDbDataParameter[] paramArr = null;
             string sql = GeneralUpdate<T>(t, ref paramArr);
-            return db.ExecNonQuery(sql, paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
         }
 
         public virtual int Update<T>(T t, string whereStr) where T : BaseMap, new()
         {
             IDbDataParameter[] paramArr = null;
             string sql = GeneralUpdate<T>(t, whereStr, ref paramArr);
-            return db.ExecNonQuery(sql, paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
         }
 
         public virtual int Update<T>(T t, string whereStr, List<string> columns) where T : BaseMap, new()
@@ -318,7 +318,7 @@ namespace Helper
             string sql = GeneralUpdate<T>(t, whereStr, columns, ref paramArr);
             Console.WriteLine(sql);
             Columns.Clear();
-            return db.ExecNonQuery(sql, paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
         }
 
         public DbMap Include(string columnNames)

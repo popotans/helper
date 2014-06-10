@@ -15,7 +15,7 @@ namespace Helper.Database
     {
         private static object _lockhelper = new object();
         private static Dictionary<string, object[]> _typeCache = new Dictionary<string, object[]>();
-        private static StringComparer _StringComparer = new StringComparer();
+        private static DataMapperStringComparer _StringComparer = new DataMapperStringComparer();
 
 
         private static void SetValue<T>(ref T t, string field, object value, List<PropertyInfo> _propertyList)
@@ -317,7 +317,7 @@ namespace Helper.Database
     }
 
 
-    public class StringComparer : IEqualityComparer<string>
+    public class DataMapperStringComparer : IEqualityComparer<string>
     {
 
         public bool Equals(string x, string y)

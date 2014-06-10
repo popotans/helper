@@ -10,7 +10,7 @@ namespace Helper
     {
         public DbMapSqlServer(string connStr)
         {
-            this.db = new SqlServerDB(connStr);
+            this.DbContext = new SqlServerDB(connStr);
         }
 
         protected override string GeneralInsert<T>(T t, ref IDbDataParameter[] paramArr)

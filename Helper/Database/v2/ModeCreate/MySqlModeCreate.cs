@@ -6,9 +6,9 @@ using System.Data;
 
 namespace Helper
 {
-    public class MySqlCore : BaseCore
+    public class MySqlModeCreate : BaseModeCreate
     {
-        public MySqlCore(string str)
+        public MySqlModeCreate(string str)
         {
             this.db = new Helper.Database.NjhData(Helper.Database.DataType.Mysql, str);
         }
@@ -113,7 +113,7 @@ namespace Helper
                 sb.Append("using System.Data;\r\n");
                 sb.Append("using System.Configuration;\r\n");
                 sb.Append("using System.Collections;\r\n");
-                sb.Append("using System.Collections.Generic;");
+                sb.Append("using System.Collections.Generic;\r\n");
 
                 sb.Append("using Helper;\r\n");
                 sb.Append("namespace " + np + "{\r\n");

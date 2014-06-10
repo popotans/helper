@@ -9,7 +9,7 @@ namespace Helper
     {
         public DbMapAccess(string dbPath)
         {
-            this.db = new AccessDB(dbPath);
+            this.DbContext = new AccessDB(dbPath);
         }
 
 

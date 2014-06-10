@@ -63,8 +63,14 @@ namespace TestProject1
         [TestMethod()]
         public void InsertTest()
         {
-           // DbMap map = new DbMapAccess(@"E:\快盘\project\CaiDown\CaiDown\down.mdb");
-          //  Console.WriteLine(map.db.ConnStr + "#" + map.db.ToString());
+
+         //   DbMap map = new DbMapAccess(@"E:\快盘\project\CaiDown\CaiDown\down.mdb");
+
+            BaseModeCreate create = new SqlServerModeCreate("server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln");
+            create.CreateAll("", "K2Sln", "");
+
+          string s=  Helper.Str.StringHelper.SubStrContain("11111@ebasdasdas@ee19851022", "@eb", "@ee");
+          Console.WriteLine(s);
 
         }
     }

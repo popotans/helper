@@ -16,7 +16,7 @@ namespace TestProject1
         public void InsertTest()
         {
 
-            Console.WriteLine(map.db.ConnStr + "#" + map.db.ToString());
+            Console.WriteLine(map.DbContext.ConnStr + "#" + map.DbContext.ToString());
 
             njh.list list = new njh.list()
             {
@@ -156,6 +156,8 @@ namespace TestProject1
 
 
         }
+
+
 
     }
 }

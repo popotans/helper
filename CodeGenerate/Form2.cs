@@ -56,7 +56,7 @@ namespace Coder
                 button1.Visible = false;
                 textBox1DbPath.Text = "server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln";
                 button3.Visible = true;
-                core = new SqlServerCore(textBox1DbPath.Text);
+                core = new SqlServerModeCreate(textBox1DbPath.Text);
             }
             
         }
@@ -73,7 +73,7 @@ namespace Coder
             //  OleDbDataReader dr = null;
 
         }
-        Helper.BaseCore core = null;
+        Helper.BaseModeCreate core = null;
         private void button2_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox1DbPath.Text))
@@ -84,7 +84,7 @@ namespace Coder
             string val = comboBox1.SelectedItem.ToString().ToLower();
             if (val.ToLower() == "oledb")
             {
-                core = new AccessCore(textBox1DbPath.Text);
+                core = new AccessModeCreate(textBox1DbPath.Text);
             }
             else if (val == "mysql")
             {
@@ -94,7 +94,7 @@ namespace Coder
             else if (val == "sqlserver")
             {
                 button1.Visible = false;
-                core = new SqlServerCore(textBox1DbPath.Text);
+                core = new SqlServerModeCreate(textBox1DbPath.Text);
             }
 
             core.CreateAll(textBox1NameSpace.Text, comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString());

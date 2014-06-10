@@ -42,7 +42,7 @@ namespace WebApplication1.testDatabase
             //int idd = map.Update<VirtualRole1>(vr);
             //Response.Write(idd);
 
-            SqlServerCore core = new SqlServerCore(conn);
+            SqlServerModeCreate core = new SqlServerModeCreate(conn);
             core.CreateAll("", "K2SLN");
 
 

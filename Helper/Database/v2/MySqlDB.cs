@@ -16,6 +16,9 @@ namespace Helper
         {
             this.ConnStr = connStr;
         }
+        private DbTransaction Trans;
+
+
         public System.Data.IDataReader GetReader(string sql, params System.Data.IDataParameter[] p)
         {
             MySqlConnection conn = GetConn();
@@ -76,6 +79,21 @@ namespace Helper
             set;
         }
 
+        public DbTransaction BeginTran()
+        {
+            Trans = GetConn().BeginTransaction(IsolationLevel.Snapshot);
+            return Trans;
+        }
+
+        public DbTransaction CommitTran()
+        {
+            if (Trans != null) Trans.Commit(); return Trans;
+        }
+        public DbTransaction RollbackTran()
+        {
+            if (Trans != null) Trans.Rollback(); return Trans;
+        }
+
         public MySqlConnection GetConn()
         {
             return new MySqlConnection(this.ConnStr);
@@ -117,12 +135,17 @@ namespace Helper
             MySqlConnection conn = GetConn();
             MySqlCommand cmd = new MySqlCommand(sql);
             cmd.Connection = conn;
+            if (p != null)
+            {
+                cmd.Parameters.AddRange(p);
+            }
             conn.Open();
             object obj = cmd.ExecuteScalar();
             cmd.Connection.Close();
             if (obj != null && obj != DBNull.Value) return obj;
             return null;
         }
+
         public int ExecScalarInt(string sql, params IDataParameter[] p)
         {
             object obj = ExecScalar(sql, p);
@@ -142,6 +165,11 @@ namespace Helper
             int i = cmd.ExecuteNonQuery();
             //  cmd.Connection.Close();
             return i;
+        }
+
+        public int ExecNonQuery(DbTransaction trans, string sql, params IDataParameter[] p)
+        {
+            return ExecNonQuery(trans.Connection, sql, p);
         }
 
         public int ExecScalarInt(DbConnection conn, string sql, params IDataParameter[] p)

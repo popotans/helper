@@ -10,7 +10,7 @@ namespace Helper
     {
         public DbMapMySql(string connStr)
         {
-            this.db = new MySqlDB(connStr);
+            this.DbContext = new MySqlDB(connStr);
         }
         protected override string GeneralInsert<T>(T t, ref IDbDataParameter[] paramArr)
         {

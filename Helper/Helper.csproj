@@ -113,10 +113,11 @@
     <Compile Include="Database\v2\DicContract.cs" />
     <Compile Include="Database\v2\IDB.cs" />
     <Compile Include="Database\v2\DbMapSqlServer.cs" />
-    <Compile Include="Database\v2\ModeCreate\AccessMode.cs" />
+    <Compile Include="Database\v2\ModeCreate\AccessModeCreate.cs" />
     <Compile Include="Database\v2\ModeCreate\DbColumn.cs" />
-    <Compile Include="Database\v2\ModeCreate\MySqlMode.cs" />
+    <Compile Include="Database\v2\ModeCreate\MySqlModeCreate.cs" />
     <Compile Include="Database\v2\ModeCreate\SqlServerMode.cs" />
+    <Compile Include="Database\v2\ModeCreate\_________test.cs" />
     <Compile Include="Database\v2\MySqlDB.cs" />
     <Compile Include="Database\v2\SqlServerDB.cs" />
     <Compile Include="Database\v2\DbMapMySql.cs" />
@@ -178,6 +179,7 @@
     <Content Include="AderTemplate\tmplExample\read.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
+    <Content Include="Database\v2\ModeCreate\tmplSample.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

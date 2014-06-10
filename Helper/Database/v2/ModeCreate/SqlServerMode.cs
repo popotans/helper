@@ -7,7 +7,7 @@ using Helper.Database;
 
 namespace Helper
 {
-    public interface ICore
+    internal interface IModeCreate
     {
         List<string> GetTables(string dbName);
         List<string> GetDatabases();
@@ -18,7 +18,7 @@ namespace Helper
 
     }
 
-    public abstract class BaseCore : ICore
+    public abstract class BaseModeCreate : IModeCreate
     {
         protected NjhData db;
         public abstract List<string> GetTables(string dbName);
@@ -74,7 +74,108 @@ namespace Helper
             return listColumns;
         }
         public abstract List<string> GetDatabases();
-        public abstract void CreateAll(string np, string dbname);
+        public virtual void CreateAll(string np, string dbname)
+        {
+            if (string.IsNullOrEmpty(np)) np = "njh";
+            List<string> tables = GetTables(dbname);
+            foreach (string table in tables)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("using System;\r\n");
+                sb.Append("using System.Data;\r\n");
+                sb.Append("using System.Configuration;\r\n");
+                sb.Append("using System.Collections;\r\n");
+                sb.Append("using System.Collections.Generic;");
+
+                sb.Append("using Helper;\r\n");
+                sb.Append("namespace " + np + "{\r\n");
+
+                List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
+                sb.Append(CreateOne(dbcolumns, table));
+
+                sb.Append("}\r\n");
+                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+                Helper.IO.FileHelper.WriteFile(folder + table + ".cs", sb.ToString(), "utf-8");
+            }
+        }
+        public virtual void CreateAll(string np, string dbname, string tmpl)
+        {
+            if (string.IsNullOrEmpty(tmpl))
+            {
+                tmpl = @"using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Collections.Generic;
+using Helper;
+namespace @ns
+{
+	public partial class @tablename
+    {
+		@eb
+        public @type @column { get;set; }@ee 
+    }
+
+    public partial class @tablename : BaseMap
+    {
+        public override IDictionary<string, object> Serialize()
+        {
+            Dictionary<string, object> dic = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
+            @eb";
+                tmpl += "dic[\"@column\"] = @column;@ee \r\n";
+                tmpl += @"return dic;
+        }
+        public override void Deserialise(IDictionary<string, object> dic)
+        {
+            @eb";
+                tmpl += "@column=GetVal<@type>(dic, \"@column\");@ee \r\n";
+                tmpl += @";
+        }
+    }
+}";
+            }
+            if (string.IsNullOrEmpty(np)) np = "njh";
+            List<string> tables = GetTables(dbname);
+            foreach (string table in tables)
+            {
+                List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
+                string s = CreateOne(tmpl, dbcolumns, table, np);
+                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+                Helper.IO.FileHelper.WriteFile(folder + table + ".cs", s, "utf-8");
+            }
+        }
+
+        public virtual string CreateOne(string tmpl, List<DbColumn> dbcolumns, string table, string np)
+        {
+            tmpl = tmpl.Replace("@tablename", table);
+            tmpl = tmpl.Replace("@ns", np);
+            int i = 1;
+            List<string> loopList = new List<string>();
+
+            while (tmpl.IndexOf("@eb") >= 0)
+            {
+                string con = Helper.Str.StringHelper.SubStrContain(tmpl, "@eb", "@ee");
+                loopList.Add(con);
+                tmpl = tmpl.Replace(con, "@" + i.ToString());
+                i++;
+            }
+
+            for (int qi = 0; qi < loopList.Count; qi++)
+            {
+                string item = loopList[qi];
+                StringBuilder sb2 = new StringBuilder();
+                foreach (DbColumn dc in dbcolumns)
+                {
+                    string cs = item;
+                    cs = cs.Replace("@eb", "").Replace("@ee", "");
+                    cs = cs.Replace("@type", dc.ColumnType.ToString().Replace("System.", ""));
+                    cs = cs.Replace("@column", dc.ColumnName);
+                    sb2.Append(cs);
+                }
+                tmpl = tmpl.Replace("@" + (qi + 1), sb2.ToString());
+            }
+            return tmpl;
+        }
 
         public virtual string CreateOne(List<DbColumn> dbcolumns, string table)
         {
@@ -131,9 +232,9 @@ namespace Helper
         public string IdentityKeys { get; set; }
     }
 
-    public class SqlServerCore : BaseCore
+    public class SqlServerModeCreate : BaseModeCreate
     {
-        public SqlServerCore(string str)
+        public SqlServerModeCreate(string str)
         {
             this.db = new Helper.Database.NjhData(Helper.Database.DataType.Mssql, str);
         }
@@ -278,29 +379,20 @@ Where upper(so.name) = upper('{0}')";
             //  return base.GetDbColumns(dt);
         }
 
-        public override void CreateAll(string np, string dbname)
-        {
-            if (string.IsNullOrEmpty(np)) np = "njh";
-            List<string> tables = GetTables(dbname);
-            foreach (string table in tables)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("using System;\r\n");
-                sb.Append("using System.Data;\r\n");
-                sb.Append("using System.Configuration;\r\n");
-                sb.Append("using System.Collections;\r\n");
-                sb.Append("using System.Collections.Generic;");
 
-                sb.Append("using Helper;\r\n");
-                sb.Append("namespace " + np + "{\r\n");
 
-                List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
-                sb.Append(CreateOne(dbcolumns, table));
+        //public override void CreateAll(string np, string dbname, string tmpl)
+        //{
+        //    if (string.IsNullOrEmpty(np)) np = "njh";
+        //    List<string> tables = GetTables(dbname);
+        //    foreach (string table in tables)
+        //    {
+        //        List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
+        //        string s = CreateOne(tmpl, dbcolumns, table, np);
+        //        string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+        //        Helper.IO.FileHelper.WriteFile(folder + table + ".cs", s, "utf-8");
+        //    }
+        //}
 
-                sb.Append("}\r\n");
-                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
-                Helper.IO.FileHelper.WriteFile(folder + table + ".cs", sb.ToString(), "utf-8");
-            }
-        }
     }
 }

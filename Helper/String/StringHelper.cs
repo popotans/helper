@@ -658,6 +658,19 @@ namespace Helper.Str
             return rs;
         }
 
+        public static string SubStrContain(string source, string beginStr, string endStr)
+        {
+            int start = source.IndexOf(beginStr);
+            int end = source.IndexOf(endStr);
+            string rs = "";
+
+            if (end - start <= 0) return "";
+
+            rs = source.Substring(start + beginStr.Length, end - start - beginStr.Length);
+            return beginStr + rs + endStr;
+        }
+
+
         /// <summary>
         /// Gets the sub domain.
         /// </summary>

@@ -7,11 +7,11 @@ using System.Data;
 
 namespace Helper
 {
-    public class AccessCore : BaseCore
+    public class AccessModeCreate : BaseModeCreate
     {
         private string _connStr;
 
-        public AccessCore(string str)
+        public AccessModeCreate(string str)
         {
             this._connStr = @"Provider=Microsoft.Jet.OleDb.4.0;Data Source=" + str;
             this.db = new Helper.Database.NjhData(Helper.Database.DataType.Oledb, _connStr);
@@ -135,6 +135,11 @@ namespace Helper
                 string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
                 Helper.IO.FileHelper.WriteFile(folder + table + ".cs", sb.ToString(), "utf-8");
             }
+        }
+
+        public override void CreateAll(string np, string dbname, string tmpl)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace WebApplication1.testDatabase
             //ac.CreateAll("aaaa","");
 
             DbMap map = new DbMapAccess(@"E:\快盘\project\CaiDown\CaiDown\down.mdb");
-            Console.WriteLine(map.db.ConnStr + "#" + map.db.ToString());
+            Console.WriteLine(map.DbContext.ConnStr + "#" + map.DbContext.ToString());
 
             njh.list list = new njh.list()
             {
