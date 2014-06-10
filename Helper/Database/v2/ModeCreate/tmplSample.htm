@@ -1,28 +1,31 @@
-﻿    public partial class @TableName
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Collections.Generic;
+using Helper;
+namespace @ns
+{
+	public partial class @tablename
     {
-        public String ZhNum { get; set; }
-        public String ZHNo { get; set; }
-        @eb
-        public @type @column { get;set; }
-        #ee 
+		@eb
+        public @type @column { get;set; }@ee 
     }
 
-
-    public partial class @TableName : BaseMap
+    public partial class @tablename : BaseMap
     {
         public override IDictionary<string, object> Serialize()
         {
             Dictionary<string, object> dic = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
             @eb
-            dic["@column"] = @column;
-            #ee 
+            dic["@column"] = @column;@ee 
             return dic;
         }
         public override void Deserialise(IDictionary<string, object> dic)
         {
             @eb
-            @column=GetVal<@ctype>(dic, "@column");
-            @ee 
+            @column=GetVal<@type>(dic, "@column");@ee 
 
         }
     }
+}
