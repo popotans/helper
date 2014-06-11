@@ -75,6 +75,8 @@
     <Compile Include="DbMapNetext.cs" />
     <Compile Include="DbMapTest.cs" />
     <Compile Include="ImageClassTest.cs" />
+    <Compile Include="Mode\TB_SNDA_Common_VirtualRole.cs" />
+    <Compile Include="Mode\_ProcInstDataAudit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlHelperTest.cs" />
   </ItemGroup>
@@ -89,6 +91,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

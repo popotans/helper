@@ -265,16 +265,17 @@ namespace Helper
                 if (reader.Read())
                 {
                     Dictionary<string, object> dic = Reader2Dict(reader); ;
-                    T t = Activator.CreateInstance<T>();
+                    T t = new T();// Activator.CreateInstance<T>();
                     t.Deserialise(dic);
                     return t;
                 }
                 reader.Close();
+                reader.Dispose();
             }
             return default(T);
         }
 
-        public List<T> GetList<T>(string sql, params IDbDataParameter[] sps) where T : BaseMap
+        public List<T> GetList<T>(string sql, params IDbDataParameter[] sps) where T : BaseMap, new()
         {
             List<T> list = new List<T>();
             using (IDataReader reader = DbContext.GetReader(sql, sps))
@@ -282,10 +283,12 @@ namespace Helper
                 while (reader.Read())
                 {
                     Dictionary<string, object> dic = this.Reader2Dict(reader);
-                    T t = Activator.CreateInstance<T>();
+                    T t = new T();// Activator.CreateInstance<T>();
                     t.Deserialise(dic);
                     list.Add(t);
                 }
+                reader.Close();
+                reader.Dispose();
             }
             return list;
         }

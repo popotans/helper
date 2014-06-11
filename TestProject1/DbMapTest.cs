@@ -1,6 +1,8 @@
 ﻿using Helper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TestProject1
 {
@@ -64,13 +66,39 @@ namespace TestProject1
         public void InsertTest()
         {
 
-         //   DbMap map = new DbMapAccess(@"E:\快盘\project\CaiDown\CaiDown\down.mdb");
+            //   DbMap map = new DbMapAccess(@"E:\快盘\project\CaiDown\CaiDown\down.mdb");
 
-            BaseModeCreate create = new SqlServerModeCreate("server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln");
-            create.CreateAll("", "K2Sln", "");
+            //   BaseModeCreate create = new SqlServerModeCreate("server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln");
+            //  create.CreateAll("TestProject1", "K2log", "");
 
-          string s=  Helper.Str.StringHelper.SubStrContain("11111@ebasdasdas@ee19851022", "@eb", "@ee");
-          Console.WriteLine(s);
+            //string s = Helper.Str.StringHelper.SubStrContain("11111@ebasdasdas@ee19851022", "@eb", "@ee");
+            //Console.WriteLine(s);
+
+            //begin query
+
+            DbMap map = new DbMapSqlServer("server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln");
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            string sql = "SELECT  top 100000 * FROM [K2Log].[dbo].[_ProcInstDataAudit]";
+            List<_ProcInstDataAudit> list = map.GetList<_ProcInstDataAudit>(sql);
+            //List<_ProcInstDataAudit> list = new List<_ProcInstDataAudit>();
+            System.Data.IDataReader reader = map.DbContext.GetReader(sql);
+
+            //while (reader.Read())
+            //{
+            //    _ProcInstDataAudit m = new _ProcInstDataAudit();
+            //    m.Date = DateTime.Parse(reader["date"].ToString());
+            //    m.Location = reader["location"].ToString();
+            //    m.Name = reader["name"].ToString();
+            //    m.ProcInstID = int.Parse(reader["ProcInstID"].ToString());
+            //    m.User = reader["user"].ToString();
+            //    m.Value = reader["value"].ToString();
+            //  //  list.Add(m);
+            //}
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed);
+
+            //endquery
 
         }
     }

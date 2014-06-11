@@ -7,6 +7,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Specialized;
 using System.Xml;
+using TestProject1;
+using Helper;
+using System.Diagnostics;
 namespace TestConsole
 {
     class Program
@@ -18,10 +21,39 @@ namespace TestConsole
 
             //Console.ReadLine();
 
-            string sss = "njhloveyangjing";
+            //string sss = "njhloveyangjing";
 
-            string rs = Helper.Security.SecurityHelper.Encrypt62(sss);
-            Console.WriteLine(rs);
+            //string rs = Helper.Security.SecurityHelper.Encrypt62(sss);
+            //Console.WriteLine(rs);
+
+            //begin query
+
+            DbMap map = new DbMapSqlServer("server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln");
+            int i = 0;
+            while (i <= 100)
+            {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                string sql = "SELECT  top 100000 * FROM [K2Log].[dbo].[_ProcInstDataAudit]";
+                List<_ProcInstDataAudit> list = map.GetList<_ProcInstDataAudit>(sql);
+                //List<_ProcInstDataAudit> list = new List<_ProcInstDataAudit>();
+                //    System.Data.IDataReader reader = map.DbContext.GetReader(sql);
+
+                //while (reader.Read())
+                //{
+                //    _ProcInstDataAudit m = new _ProcInstDataAudit();
+                //    m.Date = DateTime.Parse(reader["date"].ToString());
+                //    m.Location = reader["location"].ToString();
+                //    m.Name = reader["name"].ToString();
+                //    m.ProcInstID = int.Parse(reader["ProcInstID"].ToString());
+                //    m.User = reader["user"].ToString();
+                //    m.Value = reader["value"].ToString();
+                //  //  list.Add(m);
+                //}
+                sw.Stop();
+                Console.WriteLine(sw.Elapsed);
+                i++;
+            }
 
         }
     }

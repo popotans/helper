@@ -48,7 +48,7 @@ namespace Coder
             {
                 button3.Visible = true;
                 button1.Visible = false;
-                core = new MySqlCore(textBox1DbPath.Text);
+                core = new MySqlModeCreate(textBox1DbPath.Text);
                 textBox1DbPath.Text = "Server=localhost;Uid=root;Pwd=niejunhua;";
             }
             else if (val == "sqlserver")
@@ -89,7 +89,7 @@ namespace Coder
             else if (val == "mysql")
             {
                 button1.Visible = false;
-                core = new MySqlCore(textBox1DbPath.Text);
+                core = new MySqlModeCreate(textBox1DbPath.Text);
             }
             else if (val == "sqlserver")
             {
