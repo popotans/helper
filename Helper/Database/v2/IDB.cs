@@ -24,8 +24,10 @@ namespace Helper
         DbConnection GetConn();
         DbConnection GetConn(string connStr);
 
+        IDbDataParameter GetParam(string name, object val);
         IDbDataParameter GetParam(string name, object val, object t);
         IDbDataParameter[] GetParams(List<string> names, List<object> vals, List<object> types);
         IDbDataParameter[] GetParams(Dictionary<string, object> dic, List<object> vals);
+        IDbDataParameter[] GetParams(Dictionary<string, object> dic);
     }
 }

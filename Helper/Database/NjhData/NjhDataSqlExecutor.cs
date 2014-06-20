@@ -245,10 +245,10 @@ namespace Helper.Database
             {
                 IDbDataAdapter adapter = _dbProvider.CreateDataAdapter();
                 adapter.SelectCommand = cmd;
-                DataSet dt = new DataSet();
-                adapter.Fill(dt);
-                cmd.Connection.Close();
-                DataTable dtt = dt.Tables[0];
+                DataSet ds = new DataSet();
+                adapter.Fill(ds);
+                DataTable dtt = ds.Tables[0];
+                
                 int rows = dtt.Rows.Count;
                 return dtt;
             }

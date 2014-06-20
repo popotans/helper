@@ -11,7 +11,6 @@ namespace Helper
         {
             this.DbContext = new AccessDB(dbPath);
         }
-
-
+        
     }
 }

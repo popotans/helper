@@ -214,5 +214,23 @@ namespace Helper
             }
             return "";
         }
+
+
+        public IDbDataParameter[] GetParams(Dictionary<string, object> dic)
+        {
+            IDbDataParameter[] arr = new SqlParameter[dic.Count];
+            int i = 0;
+            foreach (KeyValuePair<string, object> item in dic)
+            {
+                arr[i] = GetParam(item.Key, item.Value);
+                i++;
+            }
+            return arr;
+        }
+
+        public IDbDataParameter GetParam(string name, object val)
+        {
+            return new SqlParameter(name, val);
+        }
     }
 }

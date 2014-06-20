@@ -37,8 +37,7 @@ namespace TestConsole
                 string sql = "SELECT  top 100000 * FROM [K2Log].[dbo].[_ProcInstDataAudit]";
                 List<_ProcInstDataAudit> list = map.GetList<_ProcInstDataAudit>(sql);
                 //List<_ProcInstDataAudit> list = new List<_ProcInstDataAudit>();
-                //    System.Data.IDataReader reader = map.DbContext.GetReader(sql);
-
+                //System.Data.IDataReader reader = map.DbContext.GetReader(sql);
                 //while (reader.Read())
                 //{
                 //    _ProcInstDataAudit m = new _ProcInstDataAudit();
@@ -48,7 +47,7 @@ namespace TestConsole
                 //    m.ProcInstID = int.Parse(reader["ProcInstID"].ToString());
                 //    m.User = reader["user"].ToString();
                 //    m.Value = reader["value"].ToString();
-                //  //  list.Add(m);
+                //    list.Add(m);
                 //}
                 sw.Stop();
                 Console.WriteLine(sw.Elapsed);

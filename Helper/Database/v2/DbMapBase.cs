@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
+using System.Reflection;
 namespace Helper
 {
     public abstract class DbMap
@@ -65,6 +66,7 @@ namespace Helper
             this._EndChar = GetDbSpecCharb(DbContext);
         }
 
+        #region dic
         protected virtual string GeneralInsert<T>(T t, ref IDbDataParameter[] paramArr) where T : BaseMap, new()
         {
             InitDbChar();
@@ -164,10 +166,12 @@ namespace Helper
             InitDbChar();
             List<OleDbParameter> list = new List<OleDbParameter>();
             IDictionary<string, object> dic = t.Serialize();
-            string sql = "update " + _BeginChar + GetTableName(dic) + _EndChar + " set ";
+            //   string sql = "update " + _BeginChar + GetTableName(dic) + _EndChar + " set ";
+            string sql = string.Format("update {0}{1}{2} set", _BeginChar, GetTableName(dic), _EndChar);
             string autoField = GetAutoField(dic);
             if (string.IsNullOrEmpty(where))
-                where = _BeginChar + autoField + _EndChar + "=" + dic[autoField];
+                //where = _BeginChar + autoField + _EndChar + "=" + dic[autoField];
+                where = string.Format("{0}{1}{2}={3}", _BeginChar, autoField, _EndChar, dic[autoField]);
             foreach (string item in dic.Keys)
             {
                 if (item.StartsWith("_____")) continue;
@@ -176,7 +180,8 @@ namespace Helper
                 {
                     continue;
                 }
-                sql += string.Format(_BeginChar + "{0}" + _EndChar + "=" + _ParameterChar + "{0},", item);
+                //sql += string.Format(_BeginChar + "{0}" + _EndChar + "=" + _ParameterChar + "{0},", item);
+                sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, item, _EndChar, _ParameterChar);
                 OleDbParameter olp = new OleDbParameter(_ParameterChar + item, dic[item]);
                 olp.OleDbType = Convert2DbType(dic[item]);
                 if (dic[item] == null) olp.Value = string.Empty;
@@ -190,6 +195,131 @@ namespace Helper
             paraArr = list.ToArray();
             return sql;
         }
+        #endregion
+
+        #region reflection
+        protected object GetDefaultValue(Type t, object val)
+        {
+            if (val == null)
+            {
+                if (t == typeof(string)) val = string.Empty;
+            }
+            else
+            {
+                if (t == typeof(DateTime))
+                {
+                    if (val.ToString().StartsWith("0001")) val = new DateTime(1970, 1, 1);
+                }
+            }
+
+            return val;
+        }
+        public virtual string GeneralInsertRef<T>(T t, ref IDbDataParameter[] paramArr)
+        {
+            InitDbChar();
+            Type type = typeof(T);
+            string dBDatbelName = type.Name; ;
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            string sqlColumn = string.Format("insert into {0}{1}{2} (", _BeginChar, dBDatbelName, _EndChar);
+            string sqlParam = "(";
+            List<OleDbParameter> list = new List<OleDbParameter>();
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length > 0)
+                {
+                    continue;
+                }
+                sqlColumn += string.Format("{0}{1}{2},", _BeginChar, pi.Name, _EndChar);
+                sqlParam += string.Format("{0}{1},", _ParameterChar, pi.Name);
+
+                object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                OleDbParameter olp = new OleDbParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                olp.OleDbType = Convert2DbType(val);
+                list.Add(olp);
+            }
+
+            sqlColumn = sqlColumn.TrimEnd(',');
+            sqlParam = sqlParam.TrimEnd(',');
+            string sql = sqlColumn + ")values" + sqlParam + ")";
+            paramArr = list.ToArray();
+            return sql;
+        }
+
+        public virtual string GeneralUpdateRef<T>(T t, ref IDbDataParameter[] paraArr)
+        {
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<OleDbParameter> list = new List<OleDbParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("update {0}{1}{2} set ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
+                    sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, pi.Name, _EndChar, _ParameterChar);
+
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    OleDbParameter olp = new OleDbParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.OleDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
+        public virtual string GeneralUpdateRef<T>(T t, List<string> columns, ref IDbDataParameter[] paraArr)
+        {
+            if (columns.Count == 0) throw new ArgumentException("no columns");
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<OleDbParameter> list = new List<OleDbParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("update {0}{1}{2} set ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+                
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
+                    if (!columns.Contains(pi.Name)) continue;
+
+                    sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, pi.Name, _EndChar, _ParameterChar);
+
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    OleDbParameter olp = new OleDbParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.OleDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
+        #endregion
 
         protected OleDbType Convert2DbType(object val)
         {
@@ -241,6 +371,29 @@ namespace Helper
             return dict;
         }
 
+        private T Reader2Entity<T>(IDataReader reader)
+        {
+            List<PropertyInfo> list = ReflectionHelper.GetProperties<T>();
+
+            //List<PropertyInfo> list = new List<PropertyInfo>();
+            //object[] oProperties = null;
+            //oProperties = typeof(T).GetProperties();
+            //foreach (PropertyInfo pi in oProperties)
+            //{
+            //    if (pi.CanRead && pi.CanWrite)
+            //        list.Add(pi);
+            //}
+
+
+            T t = Activator.CreateInstance<T>();
+            foreach (PropertyInfo pi in list)
+            {
+                pi.SetValue(t, reader[pi.Name], null);
+            }
+            return t;
+            return default(T);
+        }
+
         #region T
         public virtual T Get<T>(IDataReader reader) where T : BaseMap, new()
         {
@@ -283,9 +436,12 @@ namespace Helper
                 while (reader.Read())
                 {
                     Dictionary<string, object> dic = this.Reader2Dict(reader);
-                    T t = new T();// Activator.CreateInstance<T>();
+                    T t = Activator.CreateInstance<T>();
                     t.Deserialise(dic);
                     list.Add(t);
+
+                    //    list.Add(Reader2Entity<T>(reader));
+
                 }
                 reader.Close();
                 reader.Dispose();

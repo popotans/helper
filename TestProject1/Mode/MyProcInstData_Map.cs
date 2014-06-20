@@ -4,29 +4,27 @@ using System.Configuration;
 using System.Collections;
 using System.Collections.Generic;
 using Helper;
-namespace njh
+namespace TestProject1
 {
-    public partial class Test
-    {
-
-        [AutoIncrease, PrimaryKey]
-        public Int32 ID { get; set; }
-        public Int32 BatID { get; set; }
-        public Int32 ActID { get; set; }
-    }
-
-    public partial class Test : BaseMap
+    public partial class MyProcInstData : BaseMap
     {
         public override IDictionary<string, object> Serialize()
         {
             Dictionary<string, object> dic = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
-            dic["ID"] = ID; dic["BatID"] = BatID; dic["ActID"] = ActID;
+            
+            dic["ProcInstID"] = ProcInstID;
+            dic["ID"] = ID;
+            dic["Name"] = Name;
+            dic["Value"] = Value; 
             return dic;
         }
         public override void Deserialise(IDictionary<string, object> dic)
         {
-            ID = GetVal<Int32>(dic, "ID"); BatID = GetVal<Int32>(dic, "BatID"); ActID = GetVal<Int32>(dic, "ActID");
-            ;
+            
+            ProcInstID=GetVal<Int32>(dic, "ProcInstID");
+            ID=GetVal<Int32>(dic, "ID");
+            Name=GetVal<String>(dic, "Name");
+            Value=GetVal<String>(dic, "Value"); 
         }
     }
 }

@@ -108,17 +108,20 @@
     <Compile Include="Database\SqlPagingCount.cs" />
     <Compile Include="Database\SqlStrhelp.cs" />
     <Compile Include="Database\v2\AccessDB.cs" />
+    <Compile Include="Database\v2\Attributes.cs" />
     <Compile Include="Database\v2\DbMapAccess.cs" />
     <Compile Include="Database\v2\DbMapBase.cs" />
     <Compile Include="Database\v2\DicContract.cs" />
     <Compile Include="Database\v2\IDB.cs" />
     <Compile Include="Database\v2\DbMapSqlServer.cs" />
     <Compile Include="Database\v2\ModeCreate\AccessModeCreate.cs" />
+    <Compile Include="Database\v2\ModeCreate\BaseModeCreate.cs" />
     <Compile Include="Database\v2\ModeCreate\DbColumn.cs" />
     <Compile Include="Database\v2\ModeCreate\MySqlModeCreate.cs" />
     <Compile Include="Database\v2\ModeCreate\SqlServerMode.cs" />
     <Compile Include="Database\v2\ModeCreate\_________test.cs" />
     <Compile Include="Database\v2\MySqlDB.cs" />
+    <Compile Include="Database\v2\SqlCommand.cs" />
     <Compile Include="Database\v2\SqlServerDB.cs" />
     <Compile Include="Database\v2\DbMapMySql.cs" />
     <Compile Include="DataTableHelper.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="Web\CompressWhitespaceModule.cs" />
     <Compile Include="Web\Entity.cs" />
     <Compile Include="Web\HttpClient.cs" />
+    <Compile Include="Web\NPager.cs" />
     <Compile Include="Web\ResponseCatcher.cs" />
     <Compile Include="Web\UploadService.cs">
       <SubType>Component</SubType>

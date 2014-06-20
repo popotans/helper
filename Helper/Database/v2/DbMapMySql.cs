@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using MySql.Data.MySqlClient;
+using System.Reflection;
 namespace Helper
 {
     public class DbMapMySql : DbMap
@@ -157,6 +158,115 @@ namespace Helper
             if (t == typeof(Int64)) return MySqlDbType.Int64;
             return MySqlDbType.VarChar;
         }
+
+        #region db reflection
+        public override string GeneralInsertRef<T>(T t, ref IDbDataParameter[] paramArr)
+        {
+            InitDbChar();
+            Type type = typeof(T);
+            string dBDatbelName = type.Name; ;
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            string sqlColumn = string.Format("insert into {0}{1}{2} (", _BeginChar, dBDatbelName, _EndChar);
+            string sqlParam = "(";
+            List<MySqlParameter> list = new List<MySqlParameter>();
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length > 0)
+                {
+                    continue;
+                }
+                sqlColumn += string.Format("{0}{1}{2},", _BeginChar, pi.Name, _EndChar);
+                sqlParam += string.Format("{0}{1},", _ParameterChar, pi.Name);
+
+                object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                MySqlParameter olp = new MySqlParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                olp.MySqlDbType = Convert2DbType(val);
+                list.Add(olp);
+            }
+
+            sqlColumn = sqlColumn.TrimEnd(',');
+            sqlParam = sqlParam.TrimEnd(',');
+            string sql = sqlColumn + ")values" + sqlParam + ")";
+            paramArr = list.ToArray();
+            return sql;
+        }
+
+        public override string GeneralUpdateRef<T>(T t, ref IDbDataParameter[] paraArr)
+        {
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<MySqlParameter> list = new List<MySqlParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("update {0}{1}{2} set ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
+                    sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, pi.Name, _EndChar, _ParameterChar);
+
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    MySqlParameter olp = new MySqlParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.MySqlDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
+        public override string GeneralUpdateRef<T>(T t, List<string> columns, ref IDbDataParameter[] paraArr)
+        {
+            if (columns.Count == 0) throw new ArgumentException("no columns");
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<MySqlParameter> list = new List<MySqlParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("update {0}{1}{2} set ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+
+                if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
+                    if (!columns.Contains(pi.Name)) continue;
+
+                    sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, pi.Name, _EndChar, _ParameterChar);
+
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    MySqlParameter olp = new MySqlParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.MySqlDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
+
+        #endregion
 
     }
 }

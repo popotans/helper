@@ -72,9 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cqssc.cs" />
-    <Compile Include="DbMapNetext.cs" />
     <Compile Include="DbMapTest.cs" />
+    <Compile Include="generalInserttest.cs" />
     <Compile Include="ImageClassTest.cs" />
+    <Compile Include="Mode\Class1.cs" />
+    <Compile Include="Mode\MyProcInstData.cs" />
+    <Compile Include="Mode\MyProcInstData_Map.cs" />
     <Compile Include="Mode\TB_SNDA_Common_VirtualRole.cs" />
     <Compile Include="Mode\_ProcInstDataAudit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -238,5 +238,23 @@ namespace Helper
             }
             return "";
         }
+
+
+        public IDbDataParameter GetParam(string name, object val)
+        {
+            return new MySqlParameter(name, val);
+        }
+
+        public IDbDataParameter[] GetParams(Dictionary<string, object> dic)
+        {
+            IDbDataParameter[] arr = new MySqlParameter[dic.Count];
+            int i = 0;
+            foreach (KeyValuePair<string, object> item in dic)
+            {
+                arr[i] = GetParam(item.Key, item.Value);
+                i++;
+            }
+            return arr;
+        }
     }
 }
