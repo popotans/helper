@@ -265,7 +265,39 @@ namespace Helper
             paraArr = list.ToArray();
             return sql;
         }
-
+        public override string GeneralDelete<T>(T t, ref IDbDataParameter[] paraArr)
+        {
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<SqlParameter> list = new List<SqlParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("delete * from  {0}{1}{2} ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+                if (string.IsNullOrEmpty(where) && pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    SqlParameter olp = new SqlParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.SqlDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
         #endregion
 
     }

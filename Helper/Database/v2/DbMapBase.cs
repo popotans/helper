@@ -298,13 +298,47 @@ namespace Helper
                     if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
                     where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
                 }
-                
+
                 if (pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
                 {
                     if (!columns.Contains(pi.Name)) continue;
 
                     sql += string.Format("{0}{1}{2}={3}{1},", _BeginChar, pi.Name, _EndChar, _ParameterChar);
 
+                    object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
+                    OleDbParameter olp = new OleDbParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
+                    olp.OleDbType = Convert2DbType(val);
+                    list.Add(olp);
+                }
+            }
+            if (string.IsNullOrEmpty(where))
+            {
+                throw new ArgumentException("lost primarykey");
+            }
+            sql = sql.TrimEnd(',') + where;
+            paraArr = list.ToArray();
+            return sql;
+        }
+
+        public virtual string GeneralDelete<T>(T t, ref IDbDataParameter[] paraArr)
+        {
+            InitDbChar();
+            string where = "";
+            Type type = typeof(T);
+            List<OleDbParameter> list = new List<OleDbParameter>();
+            string dBDatbelName = type.Name;
+            string sql = string.Format("delete * from  {0}{1}{2} ", _BeginChar, dBDatbelName, _EndChar);
+            PropertyInfo[] piArr = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo pi in piArr)
+            {
+                if (pi.GetCustomAttributes(typeof(PrimaryKeyAttribute), true).Length > 0)
+                {
+                    string __fff = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null)).ToString();
+                    if (pi.PropertyType == typeof(string)) __fff = string.Format("'{0}'", __fff);
+                    where = string.Format(" where {0}{1}{2}={3} ", _BeginChar, pi.Name, _EndChar, __fff);
+                }
+                if (string.IsNullOrEmpty(where) && pi.GetCustomAttributes(typeof(AutoIncreaseAttribute), true).Length == 0)
+                {
                     object val = GetDefaultValue(pi.PropertyType, pi.GetValue(t, null));
                     OleDbParameter olp = new OleDbParameter(string.Format("{0}{1}", _ParameterChar, pi.Name), val);
                     olp.OleDbType = Convert2DbType(val);
@@ -371,7 +405,7 @@ namespace Helper
             return dict;
         }
 
-        private T Reader2Entity<T>(IDataReader reader)
+        public T Reader2Entity<T>(IDataReader reader)
         {
             List<PropertyInfo> list = ReflectionHelper.GetProperties<T>();
 
@@ -457,10 +491,30 @@ namespace Helper
             return DbContext.ExecNonQuery(sql, paramArr);
         }
 
+        public virtual int Insert2<T>(T t) where T : new()
+        {
+            IDbDataParameter[] paramArr = null;
+            string sql = GeneralInsertRef<T>(t, ref paramArr);
+
+            return DbContext.ExecNonQuery(sql, paramArr);
+        }
+
         public virtual int Update<T>(T t) where T : BaseMap, new()
         {
             IDbDataParameter[] paramArr = null;
             string sql = GeneralUpdate<T>(t, ref paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
+        }
+        public virtual int Update2<T>(T t)
+        {
+            IDbDataParameter[] paramArr = null;
+            string sql = GeneralUpdateRef<T>(t, ref paramArr);
+            return DbContext.ExecNonQuery(sql, paramArr);
+        }
+        public virtual int Delete<T>(T t)
+        {
+            IDbDataParameter[] paramArr = null;
+            string sql = GeneralDelete<T>(t, ref paramArr);
             return DbContext.ExecNonQuery(sql, paramArr);
         }
 

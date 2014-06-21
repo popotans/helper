@@ -29,7 +29,7 @@ namespace Helper
 
         public override List<DbColumn> GetDbColumns(string DbName, string tbName)
         {
-            string sql = "select column_name,Data_Type,''`description`,table_Schema,`EXTRA` from information_schema.columns where table_name='" + tbName + "';";
+            string sql = "select column_name,Data_Type,''`description`,table_Schema,`EXTRA` from information_schema.columns where table_name='" + tbName + "' AND table_Schema='" + DbName + "';";
             DataTable dt = db.ExecuteDataTable(sql);
             return GetDbColumns(dt);
         }
@@ -102,29 +102,29 @@ namespace Helper
             return list;
         }
 
-        public override void CreateAll(string np,string dbname)
-        {
-            if (string.IsNullOrEmpty(np)) np = "njh";
-            List<string> tables = GetTables(dbname);
-            foreach (string table in tables)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("using System;\r\n");
-                sb.Append("using System.Data;\r\n");
-                sb.Append("using System.Configuration;\r\n");
-                sb.Append("using System.Collections;\r\n");
-                sb.Append("using System.Collections.Generic;\r\n");
+        //public override void CreateAll(string np,string dbname)
+        //{
+        //    if (string.IsNullOrEmpty(np)) np = "njh";
+        //    List<string> tables = GetTables(dbname);
+        //    foreach (string table in tables)
+        //    {
+        //        StringBuilder sb = new StringBuilder();
+        //        sb.Append("using System;\r\n");
+        //        sb.Append("using System.Data;\r\n");
+        //        sb.Append("using System.Configuration;\r\n");
+        //        sb.Append("using System.Collections;\r\n");
+        //        sb.Append("using System.Collections.Generic;\r\n");
 
-                sb.Append("using Helper;\r\n");
-                sb.Append("namespace " + np + "{\r\n");
+        //        sb.Append("using Helper;\r\n");
+        //        sb.Append("namespace " + np + "{\r\n");
 
-                List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
-                sb.Append(CreateOne(dbcolumns, table));
+        //        List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
+        //        sb.Append(CreateOne(dbcolumns, table));
 
-                sb.Append("}\r\n");
-                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
-                Helper.IO.FileHelper.WriteFile(folder + table + ".cs", sb.ToString(), "utf-8");
-            }
-        }
+        //        sb.Append("}\r\n");
+        //        string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+        //        Helper.IO.FileHelper.WriteFile(folder + table + ".cs", sb.ToString(), "utf-8");
+        //    }
+        //}
     }
 }
