@@ -462,6 +462,22 @@ namespace Helper
             return default(T);
         }
 
+        public virtual T Get2<T>(string sql, params IDbDataParameter[] param)
+        {
+            T t = default(T);
+            IDataReader reader = null;
+            using (reader = DbContext.GetReader(sql, param))
+            {
+                if (reader.Read())
+                {
+                    t = Reader2Entity<T>(reader);
+                }
+                reader.Close();
+                reader.Dispose();
+            }
+            return t;
+        }
+
         public List<T> GetList<T>(string sql, params IDbDataParameter[] sps) where T : BaseMap, new()
         {
             List<T> list = new List<T>();

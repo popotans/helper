@@ -9,10 +9,11 @@ namespace TestProject1
     [TestClass]
     public class MySqlArticleTest
     {
-        MySqlModeCreate create = new MySqlModeCreate("server=localhost;User Id=root;password=niejunhua;Database=nq_article;charset=utf8 ");
+       
         [TestMethod]
         public void TestMethod1()
         {
+            MySqlModeCreate create = new MySqlModeCreate("server=localhost;User Id=root;password=niejunhua;Database=nq_article;charset=utf8 ");
             create.CreateAll("CommonClass", "nq_article", "");
         }
     }
