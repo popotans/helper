@@ -499,6 +499,21 @@ namespace Helper
             return list;
         }
 
+        public List<T> GetList2<T>(string sql, params IDbDataParameter[] sps)
+        {
+            List<T> list = new List<T>();
+            using (IDataReader reader = DbContext.GetReader(sql, sps))
+            {
+                while (reader.Read())
+                {
+                    list.Add(Reader2Entity<T>(reader));
+                }
+                reader.Close();
+                reader.Dispose();
+            }
+            return list;
+        }
+
         public virtual int Insert<T>(T t) where T : BaseMap, new()
         {
             IDbDataParameter[] paramArr = null;
