@@ -151,6 +151,9 @@
     <Compile Include="String\StringHelper.cs" />
     <Compile Include="Threading\ScheduleManager.cs" />
     <Compile Include="Threading\Scheduler.cs" />
+    <Compile Include="Web\Apps\WebSnap.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Web\AscxContainer.cs" />
     <Compile Include="Web\CompressWhitespaceModule.cs" />
     <Compile Include="Web\Entity.cs" />
