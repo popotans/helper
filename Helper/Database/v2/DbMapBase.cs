@@ -418,7 +418,6 @@ namespace Helper
             //        list.Add(pi);
             //}
 
-
             T t = Activator.CreateInstance<T>();
             foreach (PropertyInfo pi in list)
             {
