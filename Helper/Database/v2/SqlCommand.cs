@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-namespace Helper.Database.v2
+namespace Helper.Database
 {
-    public class SqlCommand
+    public class MyDbCommand
     {
-        public static SqlCommand Current { get; set; }
-        public SqlCommand(string sql, IDataParameter[] param)
+        public static MyDbCommand Current { get; set; }
+        public MyDbCommand(string sql, IDataParameter[] param)
         {
             this.Sql = sql;
             this.Params = param;

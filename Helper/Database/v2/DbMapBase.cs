@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Reflection;
+using Helper.Database;
 namespace Helper
 {
     public abstract class DbMap
@@ -214,7 +215,7 @@ namespace Helper
 
             return val;
         }
-        public virtual string GeneralInsertRef<T>(T t, ref IDbDataParameter[] paramArr)
+        public virtual string GeneralInsertRef<T>(T t, ref IDbDataParameter[] paraArr)
         {
             InitDbChar();
             Type type = typeof(T);
@@ -241,7 +242,9 @@ namespace Helper
             sqlColumn = sqlColumn.TrimEnd(',');
             sqlParam = sqlParam.TrimEnd(',');
             string sql = sqlColumn + ")values" + sqlParam + ")";
-            paramArr = list.ToArray();
+            paraArr = list.ToArray();
+            MyDbCommand cmd = new MyDbCommand(sql, paraArr);
+            MyDbCommand.Current = cmd;
             return sql;
         }
 
@@ -278,6 +281,8 @@ namespace Helper
             }
             sql = sql.TrimEnd(',') + where;
             paraArr = list.ToArray();
+            MyDbCommand cmd = new MyDbCommand(sql, paraArr);
+            MyDbCommand.Current = cmd;
             return sql;
         }
         public virtual string GeneralUpdateRef<T>(T t, List<string> columns, ref IDbDataParameter[] paraArr)
@@ -317,6 +322,8 @@ namespace Helper
             }
             sql = sql.TrimEnd(',') + where;
             paraArr = list.ToArray();
+            MyDbCommand cmd = new MyDbCommand(sql, paraArr);
+            MyDbCommand.Current = cmd;
             return sql;
         }
 
@@ -351,6 +358,8 @@ namespace Helper
             }
             sql = sql.TrimEnd(',') + where;
             paraArr = list.ToArray();
+            MyDbCommand cmd = new MyDbCommand(sql, paraArr);
+            MyDbCommand.Current = cmd;
             return sql;
         }
         #endregion
