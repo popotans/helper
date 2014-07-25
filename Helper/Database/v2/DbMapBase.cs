@@ -430,7 +430,24 @@ namespace Helper
             T t = Activator.CreateInstance<T>();
             foreach (PropertyInfo pi in list)
             {
-                pi.SetValue(t, reader[pi.Name], null);
+                object obj = reader[pi.Name];
+                if (obj == DBNull.Value)
+                {
+                    if (pi.PropertyType == typeof(string))
+                    {
+                        obj = string.Empty;
+                    }
+                    else if (pi.PropertyType == typeof(int))
+                    {
+                        obj = 0;
+                    }
+                    else if (pi.PropertyType == typeof(DateTime))
+                    {
+                        obj = new DateTime(1970, 1, 1);
+                    }
+                }
+
+                pi.SetValue(t, obj, null);
             }
             return t;
             return default(T);
