@@ -111,6 +111,7 @@
     <Compile Include="Database\v2\Attributes.cs" />
     <Compile Include="Database\v2\DbMapAccess.cs" />
     <Compile Include="Database\v2\DbMapBase.cs" />
+    <Compile Include="Database\v2\DbUtility.cs" />
     <Compile Include="Database\v2\DicContract.cs" />
     <Compile Include="Database\v2\IDB.cs" />
     <Compile Include="Database\v2\DbMapSqlServer.cs" />

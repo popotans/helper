@@ -21,7 +21,7 @@ namespace Helper
             set;
         }
 
-        #region protected
+        #region base method private
 
         protected string GetTableName(IDictionary<string, object> dic)
         {
@@ -67,7 +67,9 @@ namespace Helper
             this._EndChar = GetDbSpecCharb(DbContext);
         }
 
-        #region dic
+        #endregion
+
+        #region dic generate sql
         protected virtual string GeneralInsert<T>(T t, ref IDbDataParameter[] paramArr) where T : BaseMap, new()
         {
             InitDbChar();
@@ -198,7 +200,7 @@ namespace Helper
         }
         #endregion
 
-        #region reflection
+        #region reflection v2 generate sql
         protected object GetDefaultValue(Type t, object val)
         {
             if (val == null)
@@ -389,6 +391,8 @@ namespace Helper
             if (string.IsNullOrEmpty(compareto)) return false;
             return list.Contains(compareto, StringComparer.CurrentCultureIgnoreCase);
         }
+        
+        #region reader convert
 
         protected virtual Dictionary<string, object> Reader2Dict(IDataReader reader)
         {
@@ -453,6 +457,8 @@ namespace Helper
             return default(T);
         }
 
+        #endregion
+        
         #region T
         public virtual T Get<T>(IDataReader reader) where T : BaseMap, new()
         {
@@ -599,9 +605,6 @@ namespace Helper
         public List<string> Columns = new List<string>();
 
         #endregion
-
-        #endregion
-
 
     }
 

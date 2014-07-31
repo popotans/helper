@@ -78,6 +78,7 @@
     <Content Include="testDatabase\default.aspx" />
     <Content Include="testDatabase\TestAccessDb.aspx" />
     <Content Include="testDatabase\TestSqlserverdb.aspx" />
+    <Content Include="TestdbUtility.aspx" />
     <Content Include="TestNJhData.aspx" />
     <Content Include="TestPagedhelper.aspx" />
     <Content Include="Upload.asmx" />
@@ -224,6 +225,13 @@
     </Compile>
     <Compile Include="testDatabase\TestSqlserverdb.aspx.designer.cs">
       <DependentUpon>TestSqlserverdb.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestdbUtility.aspx.cs">
+      <DependentUpon>TestdbUtility.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestdbUtility.aspx.designer.cs">
+      <DependentUpon>TestdbUtility.aspx</DependentUpon>
     </Compile>
     <Compile Include="TestNJhData.aspx.cs">
       <DependentUpon>TestNJhData.aspx</DependentUpon>
