@@ -49,6 +49,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rel.cs" />
+    <Compile Include="TestgeneratePagingSql.cs" />
     <Compile Include="TestSqlServer.cs" />
     <Compile Include="Model\_ProcInstDataAudit.cs" />
   </ItemGroup>

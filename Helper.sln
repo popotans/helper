@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coder", "CodeGenerate\Coder
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{5C568900-967F-4CBB-9762-5BFAD0378C50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper.SqlLite", "Helper.SqlLiteHelper\Helper.SqlLite.csproj", "{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Helper.vsmdi
@@ -81,6 +83,16 @@ Global
 		{5C568900-967F-4CBB-9762-5BFAD0378C50}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5C568900-967F-4CBB-9762-5BFAD0378C50}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5C568900-967F-4CBB-9762-5BFAD0378C50}.Release|x86.ActiveCfg = Release|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{78B59C6F-0F24-4C73-BAFA-9B9DF611CF43}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

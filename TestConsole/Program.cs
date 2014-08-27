@@ -16,8 +16,11 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            MySqlModeCreate create = new MySqlModeCreate("server=localhost;User Id=root;password=niejunhua;Database=nq_article;charset=utf8 ");
-            create.CreateAll("CommonClass", "nq_article", "");
+
+            TestgeneratePagingSql.d();
+
+          //  MySqlModeCreate create = new MySqlModeCreate("server=localhost;User Id=root;password=niejunhua;Database=nq_article;charset=utf8 ");
+        //    create.CreateAll("CommonClass", "nq_article", "");
 
             //TestSqlServer.getList();
 

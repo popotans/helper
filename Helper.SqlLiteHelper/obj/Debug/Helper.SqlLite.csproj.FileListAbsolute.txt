@@ -1,0 +1,4 @@
+E:\Codelib\Git\helper\Helper.SqlLiteHelper\bin\Debug\Helper.SqlLiteHelper.dll
+E:\Codelib\Git\helper\Helper.SqlLiteHelper\bin\Debug\Helper.SqlLiteHelper.pdb
+E:\Codelib\Git\helper\Helper.SqlLiteHelper\obj\Debug\Helper.SqlLiteHelper.dll
+E:\Codelib\Git\helper\Helper.SqlLiteHelper\obj\Debug\Helper.SqlLiteHelper.pdb

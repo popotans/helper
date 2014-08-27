@@ -304,11 +304,3 @@ namespace Helper
 
     }
 }
-
-namespace Helper.Database
-{
-    //public class PageModel : Helper.PageModel
-    //{
-
-    //}
-}

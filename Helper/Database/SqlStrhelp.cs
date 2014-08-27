@@ -8,7 +8,6 @@ namespace Helper.Database
 {
     public class SqlStrhelp
     {
-
         /// <summary>
         /// 分页sql语句，支持多个字段
         /// </summary>
@@ -77,14 +76,14 @@ namespace Helper.Database
         /// </summary>
         /// <param name="SelectFields"></param>
         /// <param name="TblName"></param>
-        /// <param name="FldName">排序字段,唯一性</param>
+        /// <param name="OrderFieldName">排序字段,唯一性</param>
         /// <param name="PageSize"></param>
-        /// <param name="PageIndex"></param>
-        /// <param name="OrderType"></param>
-        /// <param name="whereStr"></param>
+        /// <param name="PageIndex">从1开始</param>
+        /// <param name="OrderType">desc asc</param>
+        /// <param name="whereStr">name='njh'</param>
         /// <returns></returns>
 
-        public static string GetSql0(string SelectFields, string TblName, string FldName, int PageSize, int PageIndex, string OrderType, string whereStr)
+        public static string GetPageStrSql0(string SelectFields, string TblName, string OrderFieldName, int PageSize, int PageIndex, string OrderType, string whereStr)
         {
             string StrTemp = "";
             string StrSql = "";
@@ -92,13 +91,13 @@ namespace Helper.Database
             //根据排序方式生成相关代码
             if (OrderType.ToUpper() == "ASC")
             {
-                StrTemp = "> (SELECT MAX(" + FldName + ")";
-                StrOrder = " ORDER BY " + FldName + " ASC";
+                StrTemp = "> (SELECT MAX(" + OrderFieldName + ")";
+                StrOrder = " ORDER BY " + OrderFieldName + " ASC";
             }
             else
             {
-                StrTemp = "< (SELECT MIN(" + FldName + ")";
-                StrOrder = " ORDER BY " + FldName + " DESC";
+                StrTemp = "< (SELECT MIN(" + OrderFieldName + ")";
+                StrOrder = " ORDER BY " + OrderFieldName + " DESC";
             }
             PageIndex = PageIndex < 1 ? 1 : PageIndex;
             //若是第1页则无须复杂的语句
@@ -112,7 +111,7 @@ namespace Helper.Database
             else
             {
                 //若不是第1页，构造sql语句
-                StrSql = "SELECT TOP " + PageSize + " " + SelectFields + " From " + TblName + " WHERE " + FldName + "" + StrTemp + " From (SELECT TOP " + (PageIndex - 1) * PageSize + " " + FldName + " From " + TblName + "";
+                StrSql = "SELECT TOP " + PageSize + " " + SelectFields + " From " + TblName + " WHERE " + OrderFieldName + "" + StrTemp + " From (SELECT TOP " + (PageIndex - 1) * PageSize + " " + OrderFieldName + " From " + TblName + "";
                 if (whereStr != "")
                     StrSql += " Where " + whereStr;
                 StrSql += StrOrder + ") As Tbltemp)";
@@ -123,5 +122,13 @@ namespace Helper.Database
             //返回sql语句
             return StrSql;
         }
+
+        public static string GetMysqlPageStrsql0(string SelectFields, string TblName, string OrderFieldName, int PageSize, int PageIndex, string OrderType, string whereStr)
+        {
+            string sql = " select {0} from `{1}` where {2} order by {3} {4} limit {5},{6}";
+            sql = string.Format(sql, SelectFields, TblName, whereStr, OrderFieldName, OrderType, (PageIndex - 1) * PageSize, PageSize);
+            return sql;
+        }
+
     }
 }

@@ -40,13 +40,13 @@ namespace Helper.Database
     /// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
     /// common uses of SqlClient
     /// </summary>
-    public sealed class SqlHelperMS
+    public sealed class MSSqlHelper
     {
         #region private utility methods & constructors
 
         // Since this class provides only static methods, make the default constructor private to prevent 
         // instances from being created with "new SqlHelper()"
-        private SqlHelperMS() { }
+        private MSSqlHelper() { }
 
         /// <summary>
         /// This method is used to attach array of SqlParameters to a SqlCommand.
@@ -1961,11 +1961,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -1993,11 +1993,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2026,11 +2026,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2060,11 +2060,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteDataset(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteDataset(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteDataset(connectionString, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteDataset(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2092,11 +2092,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteDataset(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteDataset(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteDataset(connection, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteDataset(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2125,11 +2125,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteDataset(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteDataset(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteDataset(transaction, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteDataset(transaction, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2160,11 +2160,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteReader(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteReader(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteReader(connectionString, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteReader(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2193,11 +2193,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteReader(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteReader(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteReader(connection, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteReader(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2226,11 +2226,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteReader(transaction, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteReader(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2260,11 +2260,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteScalar(connectionString, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2292,11 +2292,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteScalar(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteScalar(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteScalar(connection, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteScalar(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2325,11 +2325,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteScalar(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteScalar(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteScalar(transaction, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteScalar(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion
@@ -2359,11 +2359,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteXmlReader(connection, CommandType.StoredProcedure, spName);
             }
         }
 
@@ -2392,11 +2392,11 @@ namespace Helper.Database
                 // Set the parameters values
                 AssignParameterValues(commandParameters, dataRow);
 
-                return SqlHelperMS.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
+                return MSSqlHelper.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
             }
             else
             {
-                return SqlHelperMS.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName);
+                return MSSqlHelper.ExecuteXmlReader(transaction, CommandType.StoredProcedure, spName);
             }
         }
         #endregion

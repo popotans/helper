@@ -104,29 +104,29 @@
     <Compile Include="Database\NjhData\NjhDataSqlProvider.cs" />
     <Compile Include="Database\Dbhelper.cs" />
     <Compile Include="Database\SqlHelper.cs" />
-    <Compile Include="Database\SqlHelperMS.cs" />
-    <Compile Include="Database\SqlPagingCount.cs" />
+    <Compile Include="Database\MSSqlHelper.cs" />
+    <Compile Include="Database\PageModel.cs" />
     <Compile Include="Database\SqlStrhelp.cs" />
-    <Compile Include="Database\v2\AccessDB.cs" />
-    <Compile Include="Database\v2\Attributes.cs" />
-    <Compile Include="Database\v2\DbMapAccess.cs" />
-    <Compile Include="Database\v2\DbMapBase.cs" />
-    <Compile Include="Database\v2\DbUtility.cs" />
-    <Compile Include="Database\v2\DicContract.cs" />
-    <Compile Include="Database\v2\IDB.cs" />
-    <Compile Include="Database\v2\DbMapSqlServer.cs" />
-    <Compile Include="Database\v2\ModeCreate\AccessModeCreate.cs" />
-    <Compile Include="Database\v2\ModeCreate\BaseModeCreate.cs" />
-    <Compile Include="Database\v2\ModeCreate\DbColumn.cs" />
-    <Compile Include="Database\v2\ModeCreate\MySqlModeCreate.cs" />
-    <Compile Include="Database\v2\ModeCreate\SqlServerMode.cs" />
-    <Compile Include="Database\v2\ModeCreate\_________test.cs" />
-    <Compile Include="Database\v2\MySqlDB.cs" />
-    <Compile Include="Database\v2\SqlCommand.cs" />
-    <Compile Include="Database\v2\SqlServerDB.cs" />
-    <Compile Include="Database\v2\DbMapMySql.cs" />
+    <Compile Include="DataBase2\v2\AccessDB.cs" />
+    <Compile Include="DataBase2\v2\Attributes.cs" />
+    <Compile Include="DataBase2\v2\DbMapAccess.cs" />
+    <Compile Include="DataBase2\v2\DbMapBase.cs" />
+    <Compile Include="DataBase2\v2\DbUtility.cs" />
+    <Compile Include="DataBase2\v2\DicContract.cs" />
+    <Compile Include="DataBase2\v2\IDB.cs" />
+    <Compile Include="DataBase2\v2\DbMapSqlServer.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\AccessModeCreate.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\BaseModeCreate.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\DbColumn.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\MySqlModeCreate.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\SqlServerMode.cs" />
+    <Compile Include="DataBase2\v2\ModeCreate\_________test.cs" />
+    <Compile Include="DataBase2\v2\MySqlDB.cs" />
+    <Compile Include="DataBase2\v2\SqlCommand.cs" />
+    <Compile Include="DataBase2\v2\SqlServerDB.cs" />
+    <Compile Include="DataBase2\v2\DbMapMySql.cs" />
     <Compile Include="DataTableHelper.cs" />
-    <Compile Include="DataType\DataType.cs" />
+    <Compile Include="DbDataType\DataType.cs" />
     <Compile Include="DateHelper.cs" />
     <Compile Include="DelegateHelper.cs" />
     <Compile Include="Email\EmailManager.cs" />
@@ -187,7 +187,7 @@
     <Content Include="AderTemplate\tmplExample\read.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="Database\v2\ModeCreate\tmplSample.htm" />
+    <Content Include="DataBase2\v2\ModeCreate\tmplSample.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
