@@ -137,7 +137,7 @@ namespace Helper
             }
         }
 
-        public override void CreateAll(string np, string dbname, string tmpl)
+        public override void CreateAll(string np, string dbname, string tmpl,string saveFolder)
         {
             throw new NotImplementedException();
         }

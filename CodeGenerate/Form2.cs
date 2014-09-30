@@ -14,9 +14,11 @@ namespace Coder
 {
     public partial class Form2 : Form
     {
+        string saveFolder = "";
         public Form2()
         {
             InitializeComponent();
+            saveFolder = AppDomain.CurrentDomain.BaseDirectory + "CreatedFiles\\";
             comboBox1.SelectedIndexChanged += new EventHandler(comboBox1_SelectedIndexChanged);
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -58,22 +60,17 @@ namespace Coder
                 button3.Visible = true;
                 core = new SqlServerModeCreate(textBox1DbPath.Text);
             }
-            
+
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            //  NjhData db = new NjhData(DataType.Oledb, @"Provider=Microsoft.Jet.OleDb.4.0;Data Source=c:\\data\\nq.mdb");
-            //  AccessHelper ac = new AccessHelper("c:\\data\\nq.mdb");
-            //  OleDbConnection conn = ac.CreateConnection();
-            //  DataTable dt = conn.GetSchema("Tables", new string[] { null, null, "Single" });
-            //  dt = conn.GetSchema("DataTypes");
-            ////  dataGridView1.DataSource = dt;
 
-            //  OleDbDataReader dr = null;
 
         }
+
         Helper.BaseModeCreate core = null;
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBox1DbPath.Text))
@@ -81,6 +78,13 @@ namespace Coder
                 MessageBox.Show("请填写数据库地址！", "Error");
                 return;
             }
+            if (comboBox2.SelectedItem == null)
+            {
+                MessageBox.Show("请选择数据库！", "Error");
+                return;
+            }
+
+
             string val = comboBox1.SelectedItem.ToString().ToLower();
             if (val.ToLower() == "oledb")
             {
@@ -96,14 +100,18 @@ namespace Coder
                 button1.Visible = false;
                 core = new SqlServerModeCreate(textBox1DbPath.Text);
             }
-
-            core.CreateAll(textBox1NameSpace.Text, comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString());
+            string np = textBox1NameSpace.Text;
+            if (string.IsNullOrEmpty(np)) np = "HJN";
+            //    core.CreateAll(textBox1NameSpace.Text, comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString());
+            core.CreateAll(np,
+                comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString(),
+                "", saveFolder);
             richTextBox1.Text += "[" + DateTime.Now.ToString() + "] create succcess!\r\n";
 
             if (checkBox1.Checked)
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory + "CreatedFiles";
-                System.Diagnostics.Process.Start("explorer.exe", path);
+                System.Diagnostics.Process.Start("explorer.exe", saveFolder);
             }
             labelResult.Text = "数据生成完成！";
         }

@@ -14,7 +14,7 @@ namespace TestProject1
         public void TestMethod1()
         {
             MySqlModeCreate create = new MySqlModeCreate("server=localhost;User Id=root;password=niejunhua;Database=nq_article;charset=utf8 ");
-            create.CreateAll("CommonClass", "nq_article", "");
+            create.CreateAll("CommonClass", "nq_article", "","");
         }
     }
 }

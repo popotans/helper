@@ -15,9 +15,7 @@ namespace Helper
         List<DbColumn> GetDbColumns(List<string> tbNames);
 
         List<DbColumn> GetDbColumns(DataTable dt);
-
     }
-
 
     public abstract class BaseModeCreate : IModeCreate
     {
@@ -75,6 +73,8 @@ namespace Helper
             return listColumns;
         }
         public abstract List<string> GetDatabases();
+
+        [Obsolete("即将删除")]
         public virtual void CreateAll(string np, string dbname)
         {
             if (string.IsNullOrEmpty(np)) np = "njh";
@@ -100,7 +100,7 @@ namespace Helper
             }
         }
 
-        public virtual void CreateAll(string np, string dbname, string tmpl)
+        public virtual void CreateAll(string np, string dbname, string tmpl, string saveFolder)
         {
             string tmplMap = "";
             if (string.IsNullOrEmpty(tmpl))
@@ -182,14 +182,18 @@ namespace Helper
             }
             if (string.IsNullOrEmpty(np)) np = "njh";
             List<string> tables = GetTables(dbname);
+            if (string.IsNullOrEmpty(saveFolder)) saveFolder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
             foreach (string table in tables)
             {
                 List<DbColumn> dbcolumns = GetDbColumns(dbname, table);
+
                 string s = CreateOne(tmpl, dbcolumns, table, np);
-                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+                if (saveFolder.EndsWith("\\")) saveFolder += "\\";
+
+                string folder = saveFolder;
                 Helper.IO.FileHelper.WriteFile(folder + table + ".cs", s, "utf-8");
                 string sMap = CreateOne(tmplMap, dbcolumns, table, np);
-                Helper.IO.FileHelper.WriteFile(folder + table + "_Map.cs", sMap, "utf-8");
+                Helper.IO.FileHelper.WriteFile(folder + "\\map\\" + table + "_Map.cs", sMap, "utf-8");
             }
         }
 

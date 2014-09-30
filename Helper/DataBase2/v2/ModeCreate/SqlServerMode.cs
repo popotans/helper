@@ -15,7 +15,6 @@ namespace Helper
         public bool IsAutoIncrement { get; set; }
         public bool IsPrimaryKey { get; set; }
         public string TableSchema { get; set; }
-
         public string IdentityKeys { get; set; }
     }
 
@@ -55,7 +54,20 @@ namespace Helper
         public override List<DbColumn> GetDbColumns(string dbName, string tbName)
         {
             this._tbName = tbName;
-            DataTable dt = db.ExecuteDataTable("select column_name,data_type,'' as [description],Table_Schema from " + dbName + ".information_schema.columns where table_name = '" + tbName + "'");
+            string sql = @"use {dbname}
+go
+SELECT  d.name,
+	    [column_name]=a.name,
+		[identity]=case   when   COLUMNPROPERTY(a.id,a.name,'IsIdentity')=1  then  '1' else '0' end,
+		[primary]=case   when   exists(SELECT   1   FROM   sysobjects   where   xtype='PK'   and   name  in  (SELECT   name   FROM   sysindexes   WHERE   indid   in(     SELECT   indid   FROM   sysindexkeys   WHERE   id   =   a.id   AND   colid=a.colid     )))   then   '1'   else   '0'   end
+		,*
+FROM   snda..syscolumns  a inner  join   snda..sysobjects   d   on   a.id=d.id   and   d.xtype='U'   and   d.name<>'dtproperties' 
+where d.name='{tbname}'
+ order   by   a.id,a.colorder     ";
+            sql = sql.Replace("{dbname}", dbName);
+            sql = sql.Replace("{tbName}", tbName);
+            DataTable dt = null;// db.ExecuteDataTable("select column_name,data_type,'' as [description],Table_Schema from " + dbName + ".information_schema.columns where table_name = '" + tbName + "'");
+            dt = db.ExecuteDataTable(sql);
             return GetDbColumns(dt);
 
         }

@@ -11,7 +11,7 @@ namespace Helper.Security
     {
         public static string MD5(string str)
         {
-            byte[] bytes = Encoding.Default.GetBytes(str);
+            byte[] bytes = Encoding.GetEncoding("utf-8").GetBytes(str);
             bytes = new MD5CryptoServiceProvider().ComputeHash(bytes);
             string str2 = "";
             for (int i = 0; i < bytes.Length; i++)
@@ -56,12 +56,15 @@ namespace Helper.Security
         /// <returns>返回加密后的字符串</returns>
         public static string SHA1(string str)
         {
-            System.Security.Cryptography.SHA1 s1 = new System.Security.Cryptography.SHA1CryptoServiceProvider();
-            byte[] byte1;
-            byte1 = s1.ComputeHash(Encoding.GetEncoding("utf-8").GetBytes(str));
-            s1.Clear();
-            //return Convert.ToBase64String(byte1);
-            return BitConverter.ToString(byte1).Replace("-", "");
+            if (string.IsNullOrEmpty(str)) return string.Empty;
+            SHA1 sha1 = System.Security.Cryptography.SHA1.Create();
+            byte[] sha1Arr = sha1.ComputeHash(Encoding.UTF8.GetBytes(str));
+            StringBuilder enText = new StringBuilder();
+            foreach (var b in sha1Arr)
+            {
+                enText.AppendFormat("{0:x2}", b);
+            }
+            return enText.ToString();
         }
 
         /// <summary>
@@ -591,7 +594,7 @@ namespace Helper.Security
             for (int i = 0; i < returnBytes.Length; i++)
                 returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
             rs = System.Text.Encoding.GetEncoding("utf-8").GetString(returnBytes);
-            return rs; 
+            return rs;
         }
     }
 }

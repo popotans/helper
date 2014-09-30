@@ -30,7 +30,9 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.btnOpendir = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.tbNamespace = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,8 +48,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.btnBatch = new System.Windows.Forms.Button();
             this.btnSaveEntity = new System.Windows.Forms.Button();
             this.btnSavetoFile = new System.Windows.Forms.Button();
@@ -95,6 +95,16 @@
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(385, 470);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "生成SQL";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // btnOpendir
             // 
             this.btnOpendir.Location = new System.Drawing.Point(183, 470);
@@ -104,6 +114,16 @@
             this.btnOpendir.Text = "打开目录";
             this.btnOpendir.UseVisualStyleBackColor = true;
             this.btnOpendir.Click += new System.EventHandler(this.btnOpendir_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(281, 470);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Test";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // groupBox4
             // 
@@ -253,33 +273,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "操作";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(385, 470);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "生成SQL";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(281, 470);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Test";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // btnBatch
             // 
             this.btnBatch.Location = new System.Drawing.Point(13, 20);
             this.btnBatch.Name = "btnBatch";
             this.btnBatch.Size = new System.Drawing.Size(75, 23);
             this.btnBatch.TabIndex = 19;
-            this.btnBatch.Text = "批量生成";
+            this.btnBatch.Text = "生成全部";
             this.btnBatch.UseVisualStyleBackColor = true;
             this.btnBatch.Click += new System.EventHandler(this.btnBatch_Click);
             // 
@@ -289,7 +289,7 @@
             this.btnSaveEntity.Name = "btnSaveEntity";
             this.btnSaveEntity.Size = new System.Drawing.Size(75, 23);
             this.btnSaveEntity.TabIndex = 1;
-            this.btnSaveEntity.Text = "生成实体";
+            this.btnSaveEntity.Text = "生成选定表";
             this.btnSaveEntity.UseVisualStyleBackColor = true;
             this.btnSaveEntity.Click += new System.EventHandler(this.btnSaveEntity_Click);
             // 

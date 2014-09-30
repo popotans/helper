@@ -18,9 +18,12 @@ namespace Coder
     public partial class Form1 : Form
     {
         private BaseCore core;
+        private string SaveFolder;
         public Form1()
         {
             InitializeComponent();
+            SaveFolder = AppDomain.CurrentDomain.BaseDirectory + "\\CreatedFiles\\";
+
             //textBox1.Text = "server=192.168.104.117;uid=wftsa;password=jd7nTF#wM;database=K2Sln";
             //textBox1.Text = "server=.;uid=sa;password=niejunhua";
             //textBox1.Text = "Server=localhost;Uid=root;Pwd=niejunhua;";
@@ -62,7 +65,10 @@ namespace Coder
         {
             button1.Visible = comboBox1.SelectedValue.ToString() == "Oledb";
             string v = comboBox1.SelectedValue.ToString();
-            if (v == "Oledb") { }
+            if (v == "Oledb")
+            {
+
+            }
             else if (v == "MsSql")
             {
                 // if (string.IsNullOrEmpty(textBox1.Text))
@@ -76,6 +82,26 @@ namespace Coder
                 textBox1.Text = "Server=localhost;Uid=root;Pwd=niejunhua;";
                 core = new Coder.Core.MySqlCore(textBox1.Text);
             }
+        }
+
+
+        private BaseModeCreate GetCreator()
+        {
+            BaseModeCreate creator = null;
+            string v = comboBox1.SelectedValue.ToString();
+            if (v == "Oledb")
+            {
+                creator = new AccessModeCreate(textBox1.Text);
+            }
+            else if (v == "MsSql")
+            {
+                creator = new SqlServerModeCreate(textBox1.Text);
+            }
+            else if (v == "MySql")
+            {
+                creator = new MySqlModeCreate(textBox1.Text);
+            }
+            return creator;
         }
 
         /// <summary>
@@ -166,6 +192,16 @@ namespace Coder
         }
 
 
+        private void CreateMode(string tableName)
+        {
+            BaseModeCreate creator = GetCreator();
+            string rs = "";
+            string np = tbNamespace.Text;
+            if (np.Length == 0) np = "hjn";
+            if (string.IsNullOrEmpty(tableName))
+                creator.CreateAll(np, comboBoxDb.SelectedValue.ToString(), "", SaveFolder);
+        }
+
         private void btnBatch_Click(object sender, EventArgs e)
         {
             btnBatch.Enabled = false;
@@ -182,6 +218,8 @@ namespace Coder
 
                 this.Invoke(new Helper.DelegateHelper.DSet(Helper.DelegateHelper.SetVal), lblStatus, "开始批量生成......");
 
+                #region v1
+                /*
                 ListBox.SelectedObjectCollection Collection = listBox1.SelectedItems;
                 string tbName = "";
                 StringBuilder sb = new StringBuilder();
@@ -192,7 +230,15 @@ namespace Coder
                     sb.AppendLine();
                     sb.AppendLine();
                 }
-                richTextBox1.Text = sb.ToString();
+                   richTextBox1.Text = sb.ToString();
+                 */
+                #endregion
+
+                #region v2
+                CreateMode("");
+                System.Diagnostics.Process.Start("explorer.exe", SaveFolder);
+                #endregion
+
                 btnBatch.Enabled = true;
                 //SetStatus("批量生成完成，你可以点击 打开目录 按钮查看生成的文件");
                 this.Invoke(new DStatus(SetStatus), lblStatus, "批量生成完成，你可以点击 打开目录 按钮查看生成的文件");

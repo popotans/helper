@@ -334,11 +334,13 @@ namespace Helper.Str
         /// <returns></returns>
         public static string MD5(string str)
         {
-            if (str == null)
-            {
-                str = string.Empty;
-            }
-            return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
+            //if (str == null)
+            //{
+            //    str = string.Empty;
+            //}
+            //return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5");
+
+            return Security.SecurityHelper.MD5(str);
         }
 
         /// <summary>
