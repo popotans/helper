@@ -211,7 +211,7 @@ namespace Helper
                 tmpl = tmpl.Replace(con, "@" + i.ToString());
                 i++;
             }
-            int i1 = 1;
+          
             for (int qi = 0; qi < loopList.Count; qi++)
             {
                 string item = loopList[qi];

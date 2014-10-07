@@ -454,7 +454,7 @@ namespace Helper
                 pi.SetValue(t, obj, null);
             }
             return t;
-            return default(T);
+          //  return default(T);
         }
 
         #endregion

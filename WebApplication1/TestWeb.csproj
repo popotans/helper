@@ -67,6 +67,8 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Acesspaging.aspx" />
     <Content Include="Datetime.aspx" />
+    <Content Include="rsa\jiami.aspx" />
+    <Content Include="rsa\Key.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -181,6 +183,20 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="rsa\jiami.aspx.cs">
+      <DependentUpon>jiami.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="rsa\jiami.aspx.designer.cs">
+      <DependentUpon>jiami.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="rsa\Key.aspx.cs">
+      <DependentUpon>Key.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="rsa\Key.aspx.designer.cs">
+      <DependentUpon>Key.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

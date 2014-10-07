@@ -596,5 +596,8 @@ namespace Helper.Security
             rs = System.Text.Encoding.GetEncoding("utf-8").GetString(returnBytes);
             return rs;
         }
+
+
+
     }
 }
