@@ -37,17 +37,6 @@ namespace Helper.Str
         }
 
         /// <summary>
-        /// url编码
-        /// </summary>
-        /// <param name="content">要编码的内容</param>
-        /// <param name="lx">类型0:utf-8 1:GB2312 2:GBK</param>
-        /// <returns></returns>
-        public static string UrlEncoding(string url, string encoding)
-        {
-            return HttpUtility.UrlEncode(url, Encoding.GetEncoding(encoding));
-        }
-
-        /// <summary>
         /// 对UCS2编码进行解码
         /// </summary>
         /// <param name="unicodeStr">解码字符串:\u8042\u519b\u534e</param>
@@ -69,8 +58,55 @@ namespace Helper.Str
             {
                 outStr = ex.Message;
             }
-
             return outStr;
+        }
+
+        /// <summary>
+        /// 转换为Unicode,如 呵呵> 54755475
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private string ConverttoUnicode(string str)
+        {
+            string rs = "";
+            for (int i = 0; i < str.Length; i++)
+            {
+                string tmp = Convert.ToString((int)str[i], 16);
+                if (tmp.Length == 2) tmp = "00" + tmp;
+                rs += tmp;
+            }
+            return rs;
+        }
+        /// <summary>
+        /// 从unicode转换，如 54755475> 呵呵
+        /// </summary>
+        /// <param name="unicode"></param>
+        /// <returns></returns>
+        private string ConvertfromUnicode(string unicode)
+        {
+            string rs = "", tmp = "";
+            while (unicode.Length >= 4)
+            {
+                tmp = unicode.Substring(0, 4);
+                unicode = unicode.Substring(4);
+                byte code = Convert.ToByte(tmp.Substring(0, 2), 16);
+                byte code2 = Convert.ToByte(tmp.Substring(2), 16);
+                rs += System.Text.Encoding.Unicode.GetString(new byte[] { code2, code });
+            }
+
+            return rs;
+        }
+
+
+        /// <summary>
+        /// url编码
+        /// </summary>
+        /// <param name="content">要编码的内容</param>
+        /// <param name="lx">类型0:utf-8 1:GB2312 2:GBK</param>
+        /// <returns></returns>
+        public static string UrlEncoding(string url, string encoding)
+        {
+            return HttpUtility.UrlEncode(url, Encoding.GetEncoding(encoding));
         }
 
         public static string CreateUniqueIDWithComb()

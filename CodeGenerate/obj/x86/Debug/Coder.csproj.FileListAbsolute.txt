@@ -3,3 +3,4 @@ E:\codelib\git\helper\CodeGenerate\obj\x86\Debug\Coder.Form1.resources
 E:\codelib\git\helper\CodeGenerate\obj\x86\Debug\Coder.Form2.resources
 E:\codelib\git\helper\CodeGenerate\obj\x86\Debug\Coder.Properties.Resources.resources
 E:\codelib\git\helper\CodeGenerate\obj\x86\Debug\Coder.csproj.GenerateResource.Cache
+E:\CodeLib\Git\helper\CodeGenerate\bin\Debug\Coder.exe.config
