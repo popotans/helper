@@ -15,8 +15,9 @@ namespace Coder
         public Type ColumnType { get; set; }
         public string Description { get; set; }
         public bool IsAutoIncrement { get; set; }
-        public string TableSchema { get; set; }
+        public bool IsPrimaryKey { get; set; }
 
-        public string IdentityKeys { get; set; }
+        public string TableSchema { get; set; }
+      //  public string IdentityKeys { get; set; }
     }
 }

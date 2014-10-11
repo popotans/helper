@@ -1,1 +1,14 @@
 E:\codelib\git\helper\TestConsole\obj\x86\Debug\TestConsole.csprojResolveAssemblyReference.cache
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\cfg.config
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\TestConsole.exe.config
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\TestConsole.exe
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\TestConsole.pdb
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\Helper.dll
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\NVelocity.dll
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\MySql.Data.dll
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\Newtonsoft.Json.dll
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\Helper.pdb
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\NVelocity.xml
+E:\CodeLib\Git\helper\TestConsole\bin\Debug\Newtonsoft.Json.xml
+E:\CodeLib\Git\helper\TestConsole\obj\x86\Debug\TestConsole.exe
+E:\CodeLib\Git\helper\TestConsole\obj\x86\Debug\TestConsole.pdb

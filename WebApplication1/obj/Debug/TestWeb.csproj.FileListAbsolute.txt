@@ -1,1 +1,12 @@
 E:\codelib\git\helper\WebApplication1\obj\Debug\TestWeb.csprojResolveAssemblyReference.cache
+E:\CodeLib\Git\helper\WebApplication1\bin\WebApplication1.dll
+E:\CodeLib\Git\helper\WebApplication1\bin\WebApplication1.pdb
+E:\CodeLib\Git\helper\WebApplication1\bin\Helper.dll
+E:\CodeLib\Git\helper\WebApplication1\bin\NVelocity.dll
+E:\CodeLib\Git\helper\WebApplication1\bin\MySql.Data.dll
+E:\CodeLib\Git\helper\WebApplication1\bin\Newtonsoft.Json.dll
+E:\CodeLib\Git\helper\WebApplication1\bin\Helper.pdb
+E:\CodeLib\Git\helper\WebApplication1\bin\NVelocity.xml
+E:\CodeLib\Git\helper\WebApplication1\bin\Newtonsoft.Json.xml
+E:\CodeLib\Git\helper\WebApplication1\obj\Debug\WebApplication1.dll
+E:\CodeLib\Git\helper\WebApplication1\obj\Debug\WebApplication1.pdb

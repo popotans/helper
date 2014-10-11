@@ -88,6 +88,7 @@
     <Compile Include="Cache\CacheHelper.cs" />
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\TxtCache.cs" />
+    <Compile Include="ClassHelper.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Config\CustomConfig.cs" />
     <Compile Include="CustomAttribute\Attriubtes.cs" />

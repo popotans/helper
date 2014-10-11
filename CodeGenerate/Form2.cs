@@ -24,6 +24,7 @@ namespace Coder
             comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
             button1.Visible = false;
             button1.Click += new EventHandler(button1_Click);
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         void button1_Click(object sender, EventArgs e)
@@ -73,6 +74,8 @@ namespace Coder
 
         private void button2_Click(object sender, EventArgs e)
         {
+            button2.Enabled = false;
+
             if (string.IsNullOrEmpty(textBox1DbPath.Text))
             {
                 MessageBox.Show("请填写数据库地址！", "Error");
@@ -100,8 +103,9 @@ namespace Coder
                 button1.Visible = false;
                 core = new SqlServerModeCreate(textBox1DbPath.Text);
             }
+            labelResult.Text = "正在生成文件...";
             string np = textBox1NameSpace.Text;
-            if (string.IsNullOrEmpty(np)) np = "HJN";
+            if (string.IsNullOrEmpty(np)) np = "Hjn.Model";
             //    core.CreateAll(textBox1NameSpace.Text, comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString());
             core.CreateAll(np,
                 comboBox2.SelectedItem == null ? string.Empty : comboBox2.SelectedItem.ToString(),
@@ -114,6 +118,8 @@ namespace Coder
                 System.Diagnostics.Process.Start("explorer.exe", saveFolder);
             }
             labelResult.Text = "数据生成完成！";
+
+            button2.Enabled = true;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -134,6 +140,16 @@ namespace Coder
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            button3_Click(sender, e);
+        }
+
+        private void ToolStripMenuItemConnStr_Click(object sender, EventArgs e)
+        {
+            //open connstr cofig
         }
     }
 }

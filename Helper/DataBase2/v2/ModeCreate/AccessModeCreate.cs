@@ -89,7 +89,7 @@ namespace Helper
             if (listColumns.Count > 0)
             {
                 string keys = "Idx";
-                listColumns[0].IdentityKeys = keys;
+            //    listColumns[0].IdentityKeys = keys;
 
                 foreach (DbColumn item in listColumns)
                 {

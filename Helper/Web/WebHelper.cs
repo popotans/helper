@@ -332,6 +332,7 @@ namespace Helper.Web
             return string.Empty;
         }
 
+        #region WebRequest
         //以GET方式抓取远程页面内容
         public static string GetHttp(string tUrl)
         {
@@ -383,33 +384,63 @@ namespace Helper.Web
             return s;
         }
 
-        //以POST方式抓取远程页面内容
-        //postData为参数列表
-        public static string PostHttp(string url, string postData, string encodeType)
+        /// <summary>
+        /// POST请求数据,返回结果
+        /// </summary>
+        /// <param name="strUrl"></param>
+        /// <param name="strParm"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public string PostData(string strUrl, string val, Encoding encoding)
         {
-            string strResult = null;
-            try
+            HttpWebRequest myReq = (HttpWebRequest)HttpWebRequest.Create(strUrl);
+            myReq.Method = "Post";
+            myReq.ContentType = "application/x-www-form-urlencoded";
+            byte[] byteArray = encoding.GetBytes(val);
+            myReq.ContentLength = byteArray.Length;
+            Stream stream = myReq.GetRequestStream();
+            stream.Write(byteArray, 0, byteArray.Length);
+            stream.Close();
+            string strResult = "";
+            using (HttpWebResponse HttpWResp = (HttpWebResponse)myReq.GetResponse())
             {
-                Encoding encoding = Encoding.GetEncoding(encodeType);
-                byte[] POST = encoding.GetBytes(postData);
-                HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(url);
-                myRequest.Method = "POST";
-                myRequest.ContentType = "application/x-www-form-urlencoded";
-                myRequest.ContentLength = POST.Length;
-                Stream newStream = myRequest.GetRequestStream();
-                newStream.Write(POST, 0, POST.Length); //设置POST
-                newStream.Close();
-                // 获取结果数据
-                HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
-                StreamReader reader = new StreamReader(myResponse.GetResponseStream(), Encoding.Default);
-                strResult = reader.ReadToEnd();
-            }
-            catch (Exception ex)
-            {
-                strResult = ex.Message;
+                using (Stream myStream = HttpWResp.GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(myStream, encoding))
+                    {
+                        strResult = sr.ReadToEnd();
+                    }
+                }
             }
             return strResult;
         }
+
+        /// <summary>
+        /// 获取当前请求post输入数据,参数列表
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public string GetPostInput(Encoding encoding)
+        {
+            using (System.IO.Stream s = System.Web.HttpContext.Current.Request.InputStream)
+            {
+                int count = 0;
+                byte[] buffer = new byte[1024];
+                StringBuilder builder = new StringBuilder();
+                while ((count = s.Read(buffer, 0, 1024)) > 0)
+                {
+                    builder.Append(encoding.GetString(buffer, 0, count));
+                }
+                s.Flush();
+                s.Close();
+                return builder.ToString();
+            }
+        }
+
+        #endregion
+
+
+        #region  ip
 
         /// <summary>
         /// 将IP地址转为整数形式
@@ -440,6 +471,7 @@ namespace Helper.Web
             return new IPAddress(b);
         }
 
+        #endregion
         /// <summary>
         /// 自定义对url编码
         /// </summary>

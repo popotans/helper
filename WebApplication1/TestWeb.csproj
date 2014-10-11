@@ -75,6 +75,7 @@
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="testAttributes\WebForm1.aspx" />
     <Content Include="testDatabaseMysql\mysqlDb.aspx" />
     <Content Include="testDatabase\access.aspx" />
     <Content Include="testDatabase\default.aspx" />
@@ -204,6 +205,13 @@
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="testAttributes\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="testAttributes\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="testDatabaseMysql\Dao.cs" />
     <Compile Include="testDatabaseMysql\mysqlDb.aspx.cs">

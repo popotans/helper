@@ -9,13 +9,16 @@ namespace Helper
 {
     public class DbColumn
     {
+        public string DbName { get; set; }
+        public string TbName { get; set; }
+
         public string ColumnName { get; set; }
         public Type ColumnType { get; set; }
         public string Description { get; set; }
         public bool IsAutoIncrement { get; set; }
         public bool IsPrimaryKey { get; set; }
-        public string TableSchema { get; set; }
-        public string IdentityKeys { get; set; }
+
+        // public string IdentityKeys { get; set; }
     }
 
     public class SqlServerModeCreate : BaseModeCreate
@@ -54,20 +57,39 @@ namespace Helper
         public override List<DbColumn> GetDbColumns(string dbName, string tbName)
         {
             this._tbName = tbName;
-            string sql = @"use {dbname}
-go
-SELECT  d.name,
-	    [column_name]=a.name,
-		[identity]=case   when   COLUMNPROPERTY(a.id,a.name,'IsIdentity')=1  then  '1' else '0' end,
-		[primary]=case   when   exists(SELECT   1   FROM   sysobjects   where   xtype='PK'   and   name  in  (SELECT   name   FROM   sysindexes   WHERE   indid   in(     SELECT   indid   FROM   sysindexkeys   WHERE   id   =   a.id   AND   colid=a.colid     )))   then   '1'   else   '0'   end
-		,*
-FROM   snda..syscolumns  a inner  join   snda..sysobjects   d   on   a.id=d.id   and   d.xtype='U'   and   d.name<>'dtproperties' 
-where d.name='{tbname}'
- order   by   a.id,a.colorder     ";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("use " + dbName + " ");
+            sb.AppendLine(";");
+
+            string sql = @" SELECT 
+    '{dbname}' as 'dbname',
+    [tableName]=case when a.colorder=1 then d.name else '' end, 
+    [column_name]=a.name, 
+    标识=case when COLUMNPROPERTY(a.id,a.name,'IsIdentity')=1 then '1' else '0' end, 
+    主键=case when exists(SELECT 1 FROM {dbname}..sysobjects where xtype= 'PK' and name in ( 
+SELECT name FROM {dbname}..sysindexes WHERE indid in( 
+SELECT indid FROM {dbname}..sysindexkeys WHERE id = a.id AND colid=a.colid 
+))) then '1' else '0' end, 
+    [data_type]=b.name, 
+    占用字节数=a.length, 
+    长度=COLUMNPROPERTY(a.id,a.name, 'PRECISION'), 
+    小数位数=isnull(COLUMNPROPERTY(a.id,a.name, 'Scale'),0), 
+    允许空=case when a.isnullable=1 then '1'else '0' end, 
+    默认值=isnull(e.text, ''), 
+    [description]=isnull(g.[value], '') 
+FROM {dbname}..syscolumns a 
+    left join {dbname}..systypes b on a.xtype=b.xusertype 
+    inner join {dbname}..sysobjects d on a.id=d.id and d.xtype= 'U' and d.name <> 'dtproperties' and d.name = '{tbname}'
+    left join {dbname}..syscomments e on a.cdefault=e.id 
+    left join {dbname}.sys.extended_properties g on a.id=g.major_id and a.colid=g.minor_id and g.name='MS_Description' 
+order by a.id,a.colorder;";
             sql = sql.Replace("{dbname}", dbName);
-            sql = sql.Replace("{tbName}", tbName);
+            sql = sql.Replace("{tbname}", tbName);
+
+            sb.AppendLine(sql);
             DataTable dt = null;// db.ExecuteDataTable("select column_name,data_type,'' as [description],Table_Schema from " + dbName + ".information_schema.columns where table_name = '" + tbName + "'");
-            dt = db.ExecuteDataTable(sql);
+
+            dt = db.ExecuteDataTable(sb.ToString());
             return GetDbColumns(dt);
 
         }
@@ -122,16 +144,14 @@ Where upper(so.name) = upper('{0}')";
         {
             List<DbColumn> listColumns = new List<DbColumn>();
 
-            List<string> columnsStrList = GetSqlServerIdentityColumns(this._tbName);
-            List<string> columnPrmaryKey = GetSqlServerPrimarykeyColumns(_tbName);
+            List<string> columnsIdentityList = GetSqlServerIdentityColumns(this._tbName);
+            List<string> columnPrmaryKey = new List<string>();// GetSqlServerPrimarykeyColumns(_tbName);
             foreach (DataRow dr in dt.Rows)
             {
                 string column_Name = dr["column_name"].ToString();
                 string description = dr["description"].ToString();
                 string dataType = (dr["data_type"].ToString());
-                string tableSchema = dr["Table_Schema"].ToString();
                 if (dataType == "hierarchyid" || dataType == "varbinary" || dataType == "geography") continue;
-
 
                 Type ColumnType = typeof(string);
                 switch (dataType)
@@ -170,15 +190,19 @@ Where upper(so.name) = upper('{0}')";
 
                     default: ColumnType = typeof(string); break;
                 }
+
                 DbColumn column = new DbColumn
                 {
                     ColumnName = column_Name,
                     ColumnType = ColumnType,
                     Description = description,
-                    TableSchema = tableSchema
+                    IsAutoIncrement = dr["标识"].ToString() == "1",
+                    IsPrimaryKey = dr["主键"].ToString() == "1",
+                    DbName = dr["dbname"].ToString(),
+                    TbName = dr["tableName"].ToString()
                 };
 
-                foreach (string item in columnsStrList)
+                foreach (string item in columnsIdentityList)
                 {
                     if (item == column_Name)
                     {

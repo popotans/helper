@@ -38,13 +38,14 @@ namespace Coder.Core
             }
             return list;
         }
+
         private string _tbName { get; set; }
+
         public override List<DbColumn> GetDbColumns(string dbName, string tbName)
         {
             this._tbName = tbName;
             DataTable dt = db.ExecuteDataTable("select column_name,data_type,'' as [description],Table_Schema from " + dbName + ".information_schema.columns where table_name = '" + tbName + "'");
             return GetDbColumns(dt);
-
         }
 
         /// <summary>
@@ -70,10 +71,14 @@ Where upper(so.name) = upper('{0}')";
                 if (!list.Contains(clm))
                     list.Add(clm);
             }
-            return list
-                ;
+            return list;
         }
 
+        private List<string> GetSqlServerPrimaryKeyColumns(string tableName, string dataBase)
+        {
+            List<string> list = new List<string>();
+            return list;
+        }
 
         public override List<DbColumn> GetDbColumns(List<string> tbName)
         {
@@ -84,7 +89,8 @@ Where upper(so.name) = upper('{0}')";
         {
             List<DbColumn> listColumns = new List<DbColumn>();
 
-            List<string> columnsStrList = GetSqlServerIdentityColumns(this._tbName);
+            List<string> columnsIdentityList = GetSqlServerIdentityColumns(this._tbName);
+            List<string> columnsPrimaryKey = GetSqlServerPrimaryKeyColumns(this._tbName, "");
             foreach (DataRow dr in dt.Rows)
             {
                 string column_Name = dr["column_name"].ToString();
@@ -92,7 +98,6 @@ Where upper(so.name) = upper('{0}')";
                 string dataType = (dr["data_type"].ToString());
                 string tableSchema = dr["Table_Schema"].ToString();
                 if (dataType == "hierarchyid" || dataType == "varbinary" || dataType == "geography") continue;
-
 
                 Type ColumnType = typeof(string);
                 switch (dataType)
@@ -139,7 +144,7 @@ Where upper(so.name) = upper('{0}')";
                     TableSchema = tableSchema
                 };
 
-                foreach (string item in columnsStrList)
+                foreach (string item in columnsIdentityList)
                 {
                     if (item == column_Name)
                     {
@@ -147,6 +152,15 @@ Where upper(so.name) = upper('{0}')";
                         break;
                     }
                 }
+                foreach (string item in columnsPrimaryKey)
+                {
+                    if (column_Name == item)
+                    {
+                        column.IsPrimaryKey = true;
+                        break;
+                    }
+                }
+
                 listColumns.Add(column);
             }
             return listColumns;

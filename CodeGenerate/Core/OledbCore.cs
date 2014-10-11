@@ -91,13 +91,14 @@ namespace Coder.Core
             if (listColumns.Count > 0)
             {
                 string keys = "Idx";
-                listColumns[0].IdentityKeys = keys;
+                // listColumns[0].IdentityKeys = keys;
 
                 foreach (DbColumn item in listColumns)
                 {
                     if (string.Compare(item.ColumnName, "idx", true) == 0)
                     {
                         item.IsAutoIncrement = true;
+                        
                     }
                 }
             }

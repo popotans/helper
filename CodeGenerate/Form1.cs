@@ -162,7 +162,7 @@ namespace Coder
             helper.Put("columns", list);
             if (list.Count > 0)
                 helper.Put("schema", list[0].TableSchema);
-            string identity = list.Count > 0 ? list[0].IdentityKeys : "";
+            string identity = "";// list.Count > 0 ? list[0].IdentityKeys : "";
             helper.Put("identity", identity);
             helper.Put("namespace", !string.IsNullOrEmpty(tbNamespace.Text) ? tbNamespace.Text : "DAO");
             // dbcolumn

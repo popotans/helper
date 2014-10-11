@@ -78,7 +78,7 @@ namespace Helper
                     ColumnName = column_Name,
                     ColumnType = ColumnType,
                     Description = description,
-                    TableSchema = tableSchema,
+                 //   TableSchema = tableSchema,
                     IsAutoIncrement = isIdentity
                 });
             }
