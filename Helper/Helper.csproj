@@ -155,6 +155,41 @@
     <Compile Include="Singleton.cs" />
     <Compile Include="String\RegexHelper.cs" />
     <Compile Include="String\StringHelper.cs" />
+    <Compile Include="TemplateEngine\ext\DefaultEngine.cs" />
+    <Compile Include="TemplateEngine\ext\DefaultTagHandler.cs" />
+    <Compile Include="TemplateEngine\ext\ITemplateEngine.cs" />
+    <Compile Include="TemplateEngine\ITagHandler.cs" />
+    <Compile Include="TemplateEngine\ITemplateHandler.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\ArrayAccess.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\BinaryExpression.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\DoubleLiteral.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\Element.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\Expression.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\FCall.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\FieldAccess.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\IntLiteral.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\MethodCall.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\Name.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\StringExpression.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\StringLiteral.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\Tag.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\TagAttribute.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\TagClose.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\TagIf.cs" />
+    <Compile Include="TemplateEngine\Parser\AST\Text.cs" />
+    <Compile Include="TemplateEngine\Parser\ParseException.cs" />
+    <Compile Include="TemplateEngine\Parser\TagParser.cs" />
+    <Compile Include="TemplateEngine\Parser\TemplateLexer.cs" />
+    <Compile Include="TemplateEngine\Parser\TemplateParser.cs" />
+    <Compile Include="TemplateEngine\Parser\Token.cs" />
+    <Compile Include="TemplateEngine\Parser\TokenKind.cs" />
+    <Compile Include="TemplateEngine\StaticTypeReference.cs" />
+    <Compile Include="TemplateEngine\Template.cs" />
+    <Compile Include="TemplateEngine\TemplateFunction.cs" />
+    <Compile Include="TemplateEngine\TemplateManager.cs" />
+    <Compile Include="TemplateEngine\TemplateRuntimeException.cs" />
+    <Compile Include="TemplateEngine\Utility.cs" />
+    <Compile Include="TemplateEngine\VariableScope.cs" />
     <Compile Include="Threading\ScheduleManager.cs" />
     <Compile Include="Threading\Scheduler.cs" />
     <Compile Include="Web\Apps\WebSnap.cs">
@@ -164,6 +199,7 @@
     <Compile Include="Web\CompressWhitespaceModule.cs" />
     <Compile Include="Web\Entity.cs" />
     <Compile Include="Web\HttpClient.cs" />
+    <Compile Include="Web\Httphelper.cs" />
     <Compile Include="Web\NPager.cs" />
     <Compile Include="Web\ResponseCatcher.cs" />
     <Compile Include="Web\UploadService.cs">
@@ -194,6 +230,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="DataBase2\v2\ModeCreate\tmplSample.htm" />
+    <Content Include="TemplateEngine\官方提供的英文文档.html" />
+    <Content Include="TemplateEngine\帮助.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TemplateEngine\模板引擎标签说明.docx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

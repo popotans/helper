@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>问沫模板引擎帮助文档</title>
+<style type="text/css">
+<!--
+body, td, th { font-family: Tahoma, 宋体, sans-serif; font-size: 14px; color: #555; }
+body { background-color: #FFF; margin: 10px 40px; text-align:center }
+a:link { color: #66CC00; text-decoration: underline; border-bottom:1px dashed #66CC00; }
+a:visited { text-decoration: none; color: #FF6633; border-bottom:1px dashed #66CC00; }
+a:hover { text-decoration: underline; color: #FF6633; }
+a:active { text-decoration: none; color: #FF0000; }
+p { text-indent: 2em; margin: 10px 0px; padding: 0px; }
+.code { font: 12px "Courier New", Courier, monospace; color: #666699; margin: 0px 0px 0px 40px; border-right: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; border-left: 3px solid #CCCCCC; border-top: 1px solid #CCCCCC; background: #FAFAFA; padding: 5px; }
+h1 { color: #CC3366; text-align: center; font: normal 24px/24px Verdana, Arial, Helvetica, sans-serif; background: #F2F2F2; padding: 10px; margin: 0px; border-bottom: 3px solid #CDCDCD; border-top: 1px solid #CDCDCD; border-right: 0px solid #CDCDCD; border-left: 0px solid #CDCDCD; }
+ul { margin-top:0;}
+#vsinfo { float:right; width:280px; margin: 10px 0 10px 10px; border:1px solid #99CCFF;}
+#vsinfo .p { padding:10px;}
+#vsinfo .p ul { margin:0; padding:0; list-style-type:none; }
+#vsinfo .p ul li { line-height:25px; }
+#vsinfo .p ul li.line1 { height:1px; line-height:1px; font-size:0; overflow:hidden; margin:4px 0 5px 0; border-bottom:1px solid #99CCFF; }
+#vsinfo .p ul li a { color:#555; text-decoration:none; border-width:0; }
+#vsinfo .p ul li a:hover { color:#000; text-decoration: underline; }
+-->
+</style>
+</head>
+<body>
+<div style="text-align:left; margin:auto; border:1px dashed #BBB; padding:10px;">
+	<h1>VMoom.TemplateEngine</h1>
+	<div id="vsinfo">
+		<div class="p">
+			<ul>
+				<li>官方网站：<a href="http://www.vmoom.net/">http://www.vmoom.net/</a></li>
+				<li>博客地址：<a href="http://blog.csdn.net/vmoom/">http://blog.csdn.net/vmoom/</a></li>
+				<li>ＱＱ群组：3178011（注明：模板引擎）</li>
+				<li>版权所有：<a href="http://www.vmoom.net/">问沫工作室</a></li>
+				<li class="line1"></li>
+				<li style="text-align:center">VMoom.TemplateEngine Version 1.0.0</li>
+			</ul>
+		</div>
+	</div>
+	<p>问沫模板引擎（VMoom.TemplateEngine）修改自 <a href="http://www.adersoftware.com/index.cfm?page=templateEngine2">Ader TemplateEngine 2</a>（问沫工作室保留 VMoom.TemplateEngine 的所有权，Ader TemplateEngine 的版权归原著作者所有）。</p>
+	<p>VMoom.TemplateEngine 是一个用 C# 编写的 .Net 类库，它用于从模板源代码根据指定的参数生成文本。它可以用于网页制作、电子邮件模板、xml 代码生成器、源代码生成器等等。</p>
+	<p>VMoom.TemplateEngine 遵从并延续发扬 Ader TemplateEngine 的 GPL 开源协议（GNU General Public License）。</p>
+	<p>下面，我们来介绍一下 VMoom.TemplateEngine 的用法。我们先来看看一段简单的代码：</p>
+	<pre class="code">Thank You for your order {$order.billFirstNam} {$order.billLastNam}.&lt;br /&gt;<br />Your Order Total is: {$format(order.total, &quot;C&quot;)}&lt;br /&gt;<br />&lt;ad:if test=&quot;{$order.shipcountry isnot &quot;US&quot;}&quot;&gt;<br />	Your order will arrive in 2-3 weeks<br />&lt;ad:else /&gt;<br />	Your order will arrive in 5-7 days<br />&lt;/ad:if&gt;</pre>
+	<p>模板源代码可以包含表达式（expressions）、条件语句（if/elseif/else）、循环语句（foreach/for）等。</p>
+	<p>在模板引擎当中要经常用到的类是：Template 和 TemplateManager。Template 用来保存单个模板的实例，而 TemplateMagager 则是用来解析和执行模板代码的。</p>
+	<p>Template 类提供了两个便捷的静态方法，使用它们可以轻松的创建模板实例：</p>
+	<pre class="code">Template template = Template.FromString(string name, string data);<br />Template template = Template.FromFile(string name, string filename);</pre>
+	<p>创建 TemplateManager 实例的方法：</p>
+	<pre class="code">TemplateManager mngr = new TemplateManager(template);</pre>
+	<p>或者使用 TemplateManager 提供的两个方便的静态方法：</p>
+	<pre class="code">TemplateManager mngr = TemplateManager.FromFile(filename);<br />TemplateManager mngr = TemplateManager.FromString(template);</pre>
+	<p>其中 TemplateManager.FromString 方法可以让您使用动态字符串来初始化 Template 和 TemplateManager 的实例，而无需依赖于磁盘上的模板文件。</p>
+	<p>使用 TemplateManager.SetValue(string name, object value) 方法可以为模板源代码设置变量（为模板标签赋值），之后就可以在模板中引用它们了。</p>
+	<pre class="code">mngr.SetValue(&quot;customer&quot;, new Customer(&quot;Tom&quot;, &quot;Jackson&quot;));</pre>
+	<p><strong>表达式</strong>（模板标签）</p>
+	<p>表达式是所有封装在类似于“{$...}”的字符串（注：Ader TemplateEngine 原来的表达式构造是“#...#”，但是这样的格式在实际应用中经常会遇到问题，虽然使用“##”可以转义“#”，但是这毕竟不是个好的解决方案，经过多方面权衡，我最终选定了“{$...}”的格式）。</p>
+	<p>示例：{$FirstName}、{$SomeString.Length}</p>
+	<p>聪明您一定看出来了，它支持直接调用对象的属性和方法。</p>
+	<pre class="code">函数调用：{$trim(somename)}<br />属性嵌套：{$customer.firstname.length}<br />对象方法：{$firstname.substring(0, 5)} or {$customer.isValid()}</pre>
+	<p>也可以执行数组访问：</p>
+	<pre class="code">{$SomeArray[3]}<br />{$Request.Headers[&quot;Host&quot;]}</pre>
+	<p>模板引擎支持自定义函数，并且模板引擎已经内置了一些比较实用的功能函数，列表如下（在&nbsp;Ader TemplateEngine 的基础上我又增加了一些内置函数，下面的列表中可能没有包含，详细的请查看源代码）：</p>
+	<p><strong>equals(obj1, obj2)</strong> - 确定两个输入值是否相等。</p>
+	<p><strong>notequals(obj1, obj2)</strong> - 确定两个输入值是否不相等。</p>
+	<p><strong>iseven(num)</strong> - 确定当前处理的标签索引是否是偶数。</p>
+	<p><strong>isodd(num)</strong> - 确定当前处理的标签索引是否是奇数。</p>
+	<p><strong>isempty(string)</strong> - 确定指定值是否为空。</p>
+	<p><strong>isnotempty(string)</strong> - 确定指定值是否不为空。</p>
+	<p><strong>isnumber(num)</strong> - 确定输入值是否为数字。</p>
+	<p><strong>toupper(string)</strong> - 返回输入值的大写副本。</p>
+	<p><strong>tolower(string)</strong> - 返回输入值的小写副本。</p>
+	<p><strong>isdefined(varname)</strong> - 确定输入值是否已经定义。</p>
+	<p><strong>ifdefined(varname, value)</strong> - 如果第一输入值（varname）已经定义，则返回第二输入值（value）。</p>
+	<p><strong>len(string)</strong> - 返回输入值的长度。</p>
+	<p><strong>tolist(collection, property, delim)</strong> - 将输入的集合转换为指定字符分隔的列表。</p>
+	<p>示例一： </p>
+	<p>初始化：</p>
+	<pre class="code">ArrayList list = new ArrayList();<br />list.Add(&quot;one&quot;);<br />list.Add(&quot;two&quot;);<br />list.Add(&quot;three&quot;);<br />template.SetValue(&quot;mylist&quot;, list);</pre>
+	<p>模板代码：</p>
+	<pre class="code">{$toList(mylist, &quot; &amp; &quot;)}</pre>
+	<p>输出结果：</p>
+	<pre class="code">one &amp; two &amp; three</pre>
+	<p>示例二：</p>
+	<p>初始化：</p>
+	<pre class="code">suppose you have list as:list.Add(new Customer(&quot;Tom&quot;, &quot;Whatever&quot;));<br />list.Add(new Customer(&quot;Henry&quot;, &quot;III&quot;));<br />list.Add(new Customer(&quot;Tom&quot;, &quot;Jackson&quot;));<br />template.SetValue(&quot;mylist&quot;, list);</pre>
+	<p>模板代码： </p>
+	<pre class="code">{$toList(mylist, &quot;firstName&quot;, &quot;,&quot;)}</pre>
+	<p>输出结果：</p>
+	<pre class="code">Tom,Henry,Tom</pre>
+	<p><strong>isnull(obj)</strong> - 确定输入值是否为 null。</p>
+	<p><strong>not(boolvalue)</strong> - 对输入值执行逻辑“非”运算。</p>
+	<p><strong>iif(booleanExpression, iftruevalue, iffalsevalue)</strong> - 对输入值执行条件（三目）运算。</p>
+	<p>示例：</p>
+	<pre class="code">{$iif(isodd(i), &quot;bgcolor=yellow&quot;, &quot;bgcolor=red&quot;)}</pre>
+	<p>输出结果：</p>
+	<pre class="code">如果 i 是奇数：bgcolor=yellow<br />如果 i 是偶数：bgcolor=red</pre>
+	<p><strong>format(object, formatstring)</strong> - 为输入值执行格式化。</p>
+	<p><strong>trim(string)</strong> - 从输入值移除数组中指定的所有首部和尾部匹配项。</p>
+	<p><strong>filter(collection, booleanproperty)</strong> - 从输入集合过滤指定内容。</p>
+	<p><strong>gt(obj1, obj2) </strong>- 确认第一输入值是否大于第二输入值。</p>
+	<p><strong>lt(obj1, obj2)</strong> - 确认第一输入值是否小于第二输入值。</p>
+	<p><strong>compare(obj1, obj2)</strong> - 确认第一输入值是否等于第二输入值。</p>
+	<p><strong>or(bool1, bool2)</strong> - 为两个输入值执行逻辑“或”运算。</p>
+	<p><strong>and(bool1, bool2)</strong> - 为两个输入值执行逻辑“与”运算。</p>
+	<p><strong>comparenocase(string1, string2)</strong> - 确定两个输入值是否相等，而忽略大小写。</p>
+	<p><strong>s</strong><strong>tripnewlines(string)</strong> - 清除空行，并将其转换为一个空格。</p>
+	<p><strong>typeof(object)</strong> - 获取指定实例的 System.Type。</p>
+	<p><strong>cint(value)</strong> - 将输入值转换为 int。</p>
+	<p><strong>cdouble(value)</strong> - 将输入值转换为 double。</p>
+	<p><strong>cdate(value)</strong> - 将输入值转换为 DateTime。</p>
+	<p><strong>createtypereference(type)</strong> - 创建类型引用。</p>
+	<pre class="code">{$createtypereference(&quot;System.Math&quot;).Round(3.39789)}<br />{$createtypereference(&quot;System.Math&quot;).PI}<br />or<br />&lt;ad:set name=&quot;MyMath&quot; value=&quot;{$createtypereference(&quot;System.Math&quot;)}&quot; /&gt;<br />{$MyMath.Round(3.3)}<br />{$MyMath.PI}</pre>
+	<p><strong>运算符：</strong></p>
+	<p><strong>is</strong> - &quot;=&quot;</p>
+	<p><strong>isnot</strong> - &quot;!=&quot;</p>
+	<p><strong>and</strong> - &quot;&amp;&amp;&quot;</p>
+	<p><strong>or</strong> - &quot;||&quot;</p>
+	<p><strong>lt</strong>, <strong>lte</strong>, <strong>gt</strong>, <strong>gte</strong> - &quot;&lt;,&lt;=,&gt;,&gt;=&quot;</p>
+	<pre class="code">{$varOne lt 3}<br />{$varTwo lte cdbl(3)}<br />{$varThree gt varFour and varFive gte 5.0}</pre>
+	<p><strong>语句标签：</strong></p>
+	<p><strong>IF</strong></p>
+	<pre class="code">&lt;ad:if test=&quot;{$booleanexpression}&quot;&gt;<br />// ...<br />&lt;ad:elseif test=&quot;{$bool}&quot;&gt;<br />// ...<br />&lt;ad:else&gt;<br />// ...<br />&lt;/ad:if&gt;</pre>
+	<p><strong>FOREACH</strong></p>
+	<pre class="code">&lt;ad:foreach collection=&quot;{$collection}&quot; var=&quot;cust&quot; index=&quot;i&quot;&gt;<br />	{$i}: {$cust.lastname}, {$cust.firstname}<br />&lt;/ad:foreach&gt;</pre>
+	<p><strong>FOR</strong></p>
+	<pre class="code">&lt;ad:for from=&quot;1&quot; to=&quot;10&quot; index=&quot;i&quot;&gt;<br />	{$i}: {$customers[i].name}<br />&lt;/ad:for&gt;</pre>
+	<p><strong>SET</strong></p>
+	<pre class="code">&lt;ad:set name=&quot;var&quot; value=&quot;{$someexpression}&quot; /&gt;</pre>
+	<p><strong>自定义模板：</strong></p>
+	<p>这是本模板引擎的主要特性之一，声明模板的方法：</p>
+	<pre class="code">&lt;ad:template name=&quot;ShowCustomer&quot;&gt;<br />	{$customer.lastname}, {$customer.firstname}<br />&lt;/ad:template&gt;<br />&lt;ad:showcustomer customer=&quot;{$cust}&quot; /&gt;</pre>
+	<p>调用自定义模板（或子模板）则很简单，就是直接使用模板名作为标签名即可：</p>
+	<pre class="code">&lt;ad:showcustomer /&gt;<br />或者：<br />&lt;ad:showcustomer&gt;&lt;/ad:showcustomer&gt;</pre>
+	<p>在自定义模板中可以使用 innerText 来调用输入内容（您可以把它理解为类似于 DHTML 中的 innerHTML，这里的 innerText 代表的就是您定义的模板标签所包含的子节点及其所有子节点的内容）：</p>
+	<pre class="code">&lt;!-- 声明 --&gt;<br />&lt;ad:template name=&quot;bold&quot;&gt;<br />	&lt;b&gt;{$innerText}&lt;/b&gt;<br />&lt;/ad:template&gt;<br />&lt;ad:bold&gt;{$cust.lastname}, {$cust.firstname}&lt;/ad:bold&gt;<br />&lt;!-- 输出 --&gt;<br />&lt;b&gt;Jackson, Tom&lt;/b&gt;</pre>
+	<p>自定义模板（或子模板）支持嵌套：</p>
+	<pre class="code">&lt;ad:template name=&quot;italic&quot;&gt;{$innerText}&lt;/ad:template&gt;<br />&lt;ad:bold&gt;&lt;ad:italic&gt;This will be bold and italic&lt;/ad:italic&gt;&lt;/ad:bold&gt;</pre>
+	<p>自定义模板（或子模板）的调用还可以使用 apply 标签：</p>
+	<pre class="code">&lt;ad:apply template=&quot;{$usetemplate}&quot;&gt;this is content&lt;/ad:apply&gt;</pre>
+	<p>自模板的声明还可以在程序中实现：</p>
+	<pre class="code">TemplateManager mngr = ...;<br />mngr.AddTemplate(Template.FromString(&quot;bold&quot;, &quot;&lt;b&gt;{$innerText}&lt;/b&gt;&quot;));</pre>
+</div>
+<div style="height:30px; line-height:30px; margin:auto"><strong>问沫工作室</strong> Copyright © 2008 - 2012 <a href="http://www.vmoom.net/">vMoom.Net</a> , All Rights Reserved <a href="http://www.miibeian.gov.cn/" rel="_blank" target="_blank" $included="null">京ICP备08001794号</a></div>
+</body>
+</html>
