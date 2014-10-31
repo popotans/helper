@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine.Parser
+namespace Helper.TemplateEngine.Parser
 {
 	/// <summary>
 	/// 表示模板解析过程中发生的错误。

@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine.Parser
+namespace Helper.TemplateEngine.Parser
 {
 	/// <summary>
 	/// 表示 Token 对象。

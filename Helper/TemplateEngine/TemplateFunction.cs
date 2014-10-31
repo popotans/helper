@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
 	/// <summary>
 	/// 为内置函数提供支持的委托。

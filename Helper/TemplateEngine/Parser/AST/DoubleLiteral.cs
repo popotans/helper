@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine.Parser.AST
+namespace Helper.TemplateEngine.Parser.AST
 {
 	/// <summary>
 	/// 表示双精度数字表达式。

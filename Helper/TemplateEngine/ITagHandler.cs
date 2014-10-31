@@ -32,9 +32,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VMoom.TemplateEngine.Parser.AST;
+using Helper.TemplateEngine.Parser.AST;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
 	/// <summary>
 	/// 为自定义标签功能提供接口。

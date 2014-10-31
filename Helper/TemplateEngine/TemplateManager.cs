@@ -35,10 +35,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.IO;
-using VMoom.TemplateEngine.Parser.AST;
-using VMoom.TemplateEngine.Parser;
+using Helper.TemplateEngine.Parser.AST;
+using Helper.TemplateEngine.Parser;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
 	/// <summary>
 	/// 为模板引擎提供模板管理支持的外观类。

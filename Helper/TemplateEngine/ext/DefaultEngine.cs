@@ -5,7 +5,7 @@ using System.Web;
 using System.Text;
 using System.Collections;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
     /// <summary>
     /// 基础模板构建器
@@ -98,6 +98,19 @@ namespace VMoom.TemplateEngine
                 manager.SetValue(key, val);
         }
 
+        /// <summary>
+        /// 包含其他模版文件进来并指定页面中的引用文字 <ad:phead />
+        /// </summary>
+        /// <param name="funName"></param>
+        /// <param name="fileName"></param>
+        public void Include(string funName, string fileName)
+        {
+            manager.AddTemplate(Template.FromFile(funName, fileName));
+        }
+
         #endregion
+
+
+
     }
 }

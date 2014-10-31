@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
     /// <summary>
     /// 所有引擎构建器接口
@@ -33,5 +33,6 @@ namespace VMoom.TemplateEngine
         TemplateManager TemplateManager { get; }
 
         void Set(string key, object val);
+        void Include(string funName, string fileName);
     }
 }

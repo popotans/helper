@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VMoom.TemplateEngine.Parser
+namespace Helper.TemplateEngine.Parser
 {
 	/// <summary>
 	/// Token 类型的枚举。

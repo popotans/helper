@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace VMoom.TemplateEngine.Parser
+namespace Helper.TemplateEngine.Parser
 {
 	/// <summary>
 	/// 模板词汇分析器。

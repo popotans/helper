@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine.Parser.AST
+namespace Helper.TemplateEngine.Parser.AST
 {
 	/// <summary>
 	/// 表示 if 语句标签。

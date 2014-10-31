@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
 	/// <summary>
 	/// 为引用静态类型提供支持。

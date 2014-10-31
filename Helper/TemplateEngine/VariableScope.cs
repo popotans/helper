@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VMoom.TemplateEngine
+namespace Helper.TemplateEngine
 {
 	/// <summary>
 	/// 提供变量标签视图管理功能。

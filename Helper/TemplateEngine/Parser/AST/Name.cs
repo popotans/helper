@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace VMoom.TemplateEngine.Parser.AST
+namespace Helper.TemplateEngine.Parser.AST
 {
 	/// <summary>
 	/// 表示命名表达式。

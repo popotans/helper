@@ -32,9 +32,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VMoom.TemplateEngine.Parser.AST;
+using Helper.TemplateEngine.Parser.AST;
 
-namespace VMoom.TemplateEngine.Parser
+namespace Helper.TemplateEngine.Parser
 {
 	/// <summary>
 	/// 模板解析器。
