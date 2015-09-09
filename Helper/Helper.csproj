@@ -91,6 +91,7 @@
     <Compile Include="ClassHelper.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Config\CustomConfig.cs" />
+    <Compile Include="Config\KVConfig.cs" />
     <Compile Include="CustomAttribute\Attriubtes.cs" />
     <Compile Include="Database\AccessHelper.cs" />
     <Compile Include="Database\JsonStorager.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Serialize\FastJson.cs" />
     <Compile Include="Serialize\JsonHelper.cs" />
     <Compile Include="Serialize\XmlHelper.cs" />
+    <Compile Include="Serialize\XmlSerialize.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="String\RegexHelper.cs" />
     <Compile Include="String\StringHelper.cs" />
@@ -234,6 +236,7 @@
     <Content Include="TemplateEngine\帮助.html" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\kvconfig.config" />
     <None Include="TemplateEngine\模板引擎标签说明.docx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

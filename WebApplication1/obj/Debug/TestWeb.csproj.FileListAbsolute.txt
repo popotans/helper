@@ -1,0 +1,13 @@
+I:\git\Helper\WebApplication1\bin\WebApplication1.dll.config
+I:\git\Helper\WebApplication1\bin\WebApplication1.dll
+I:\git\Helper\WebApplication1\bin\WebApplication1.pdb
+I:\git\Helper\WebApplication1\bin\Helper.dll
+I:\git\Helper\WebApplication1\bin\MySql.Data.dll
+I:\git\Helper\WebApplication1\bin\NVelocity.dll
+I:\git\Helper\WebApplication1\bin\Newtonsoft.Json.dll
+I:\git\Helper\WebApplication1\bin\Helper.pdb
+I:\git\Helper\WebApplication1\bin\NVelocity.xml
+I:\git\Helper\WebApplication1\bin\Newtonsoft.Json.xml
+I:\git\Helper\WebApplication1\obj\Debug\TestWeb.csprojResolveAssemblyReference.cache
+I:\git\Helper\WebApplication1\obj\Debug\WebApplication1.dll
+I:\git\Helper\WebApplication1\obj\Debug\WebApplication1.pdb

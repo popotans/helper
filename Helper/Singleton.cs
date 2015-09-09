@@ -1,132 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Helper
 {
     /// <summary>
-    /// Singleton
+    /// Base class used for singletons
+    /// 为单例模式使用的基类
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public static class Singleton<T>
+    /// <typeparam name="T">泛型类型</typeparam>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1053:StaticHolderTypesShouldNotHaveConstructors")]
+    public class Singleton<T> where T : class
     {
+        #region [构造函数]
         /// <summary>
-        /// LockKey
+        /// 构造函数
         /// </summary>
-        private static object _LockKey = new object();
+        protected Singleton() { }
+        #endregion
 
+        #region [属性]
         /// <summary>
-        /// 实例
+        /// 获取单例模式的实例
         /// </summary>
-        private static T _Instance;
-
-        /// <summary>
-        /// Get an instance of T
-        /// </summary>
-        /// <returns></returns>
-        public static T GetInstance()
+        public static T Instance
         {
-            return GetInstance(null);
-        }
-
-        /// <summary>
-        /// Get an instance of T
-        /// </summary>
-        /// <param name="onCreateInstance">The on create instance.</param>
-        /// <returns></returns>
-        public static T GetInstance(Func<T> onCreateInstance)
-        {
-            if (_Instance == null)
+            get
             {
-                lock (_LockKey)
+                if (_Instance == null)
                 {
-                    if (_Instance == null)
+                    lock (Temp)
                     {
-                        _Instance = TryGetInstance(onCreateInstance);
+                        if (_Instance == null)
+                        {
+                            ConstructorInfo Constructor = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic,
+                                null, new Type[0], null);
+                            if (Constructor == null || Constructor.IsAssembly)
+                                throw new InvalidOperationException("Constructor is not private or protected for type " + typeof(T).Name);
+                            _Instance = (T)Constructor.Invoke(null);
+                        }
                     }
                 }
-            }
-            return _Instance;
-        }
-
-        /// <summary>
-        /// Get an instance of T and set to instance
-        /// </summary>        
-        /// <param name="instance">The instance.</param>
-        /// <param name="onCreateInstance">The on create instance.</param>
-        /// <returns></returns>
-        public static T GetInstance(T instance, Func<T> onCreateInstance)
-        {
-            if (instance == null)
-            {
-                lock (_LockKey)
-                {
-                    if (instance == null)
-                    {
-                        instance = TryGetInstance(onCreateInstance);
-                    }
-                }
-            }
-            return instance;
-        }
-
-        /// <summary>
-        /// Get an instance of T
-        /// </summary>
-        /// <param name="dictionary">The dictionary.</param>
-        /// <param name="key">The key.</param>
-        /// <param name="onCreateInstance">The on create instance.</param>
-        /// <returns></returns>
-        public static T GetInstance(Dictionary<string, T> dictionary, string key, Func<T> onCreateInstance)
-        {
-            if (dictionary == null)
-                dictionary = new Dictionary<string, T>();
-
-            T instance;
-            if (dictionary.TryGetValue(key, out instance))
-                return instance;
-
-            lock (_LockKey)
-            {
-                if (dictionary.TryGetValue(key, out instance))
-                    return instance;
-
-                instance = TryGetInstance(onCreateInstance);
-
-                dictionary[key] = instance;
-                return instance;
+                return _Instance;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Release the instance of T
-        /// </summary>
-        public static void ReleaseInstance()
-        {
-            lock (_LockKey)
-            {
-                IDisposable id = _Instance as IDisposable;
-                if (id != null)
-                    id.Dispose();
-
-                _Instance = default(T);
-            }
-        }
-
-        private static T TryGetInstance(Func<T> onCreateInstance)
-        {
-            try
-            {
-                if (onCreateInstance == null)
-                    return Activator.CreateInstance<T>();
-                else
-                    return onCreateInstance();
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
+        #region [私有变量]
+        private static T _Instance = null;
+        private static object Temp = 1;
+        #endregion
     }
 }
