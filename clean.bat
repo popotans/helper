@@ -9,5 +9,5 @@ rd /s /q Helper\bin\
 rd /s /q CodeGenerate\obj\
 rd /s /q CodeGenerate\bin\
 rd /s /q TestResults\
-
+ 
 pause
