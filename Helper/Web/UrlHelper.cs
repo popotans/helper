@@ -35,6 +35,18 @@ namespace Helper.Web
         }
 
         /// <summary>
+        /// 得到地址绝对路径，包含虚拟路径（如果有） 如：http://localhost:6037/testw/a.aspx返回 http://localhost:6037/testw
+        /// </summary>
+        /// <returns>http://localhost:6037/testw</returns>
+        public static string GetApplicationPath()
+        {
+            string path = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + (
+                HttpContext.Current.Request.ApplicationPath == "/" ? "" : HttpContext.Current.Request.ApplicationPath
+                );
+            return path;
+        }
+
+        /// <summary>
         /// 301服务器转向
         /// </summary>
         /// <param name="url"></param>

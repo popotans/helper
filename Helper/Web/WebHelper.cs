@@ -238,6 +238,14 @@ namespace Helper.Web
             }
         }
 
+
+        public static  string GetPostFromStream()
+        {
+            byte[] input = HttpContext.Current.Request.BinaryRead(HttpContext.Current.Request.TotalBytes);
+            string source = Encoding.UTF8.GetString(input);
+            return source;
+        }
+
         /// <summary>
         /// 获得指定Url参数的int类型值
         /// </summary>

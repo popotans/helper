@@ -14,7 +14,7 @@
     <RootNamespace>WebApplication1</RootNamespace>
     <AssemblyName>WebApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -67,6 +67,8 @@
     <Content Include="AccesstestOperation.aspx" />
     <Content Include="Account\ChangePassword.aspx" />
     <Content Include="Account\ChangePasswordSuccess.aspx" />
+    <Content Include="Account\getPOstFromtream.aspx" />
+    <Content Include="Account\GetRequestApplication.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\Testconfig.aspx" />
@@ -141,6 +143,20 @@
     </Compile>
     <Compile Include="Account\ChangePasswordSuccess.aspx.designer.cs">
       <DependentUpon>ChangePasswordSuccess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\getPOstFromtream.aspx.cs">
+      <DependentUpon>getPOstFromtream.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\getPOstFromtream.aspx.designer.cs">
+      <DependentUpon>getPOstFromtream.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\GetRequestApplication.aspx.cs">
+      <DependentUpon>GetRequestApplication.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\GetRequestApplication.aspx.designer.cs">
+      <DependentUpon>GetRequestApplication.aspx</DependentUpon>
     </Compile>
     <Compile Include="Account\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -344,12 +360,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6037</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:6037/testw</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
