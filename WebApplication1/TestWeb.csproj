@@ -74,6 +74,7 @@
     <Content Include="Account\Testconfig.aspx" />
     <Content Include="Acesspaging.aspx" />
     <Content Include="Datetime.aspx" />
+    <Content Include="getImgFromHtml.aspx" />
     <Content Include="rsa\jiami.aspx" />
     <Content Include="rsa\Key.aspx" />
     <Content Include="Styles\Site.css" />
@@ -202,6 +203,13 @@
     </Compile>
     <Compile Include="getImage.ashx.cs">
       <DependentUpon>getImage.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="getImgFromHtml.aspx.cs">
+      <DependentUpon>getImgFromHtml.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="getImgFromHtml.aspx.designer.cs">
+      <DependentUpon>getImgFromHtml.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

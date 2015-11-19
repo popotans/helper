@@ -1,39 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-namespace Helper.Str
-{
-    public class RegexHelper
-    {
-        public static bool IsNum(string s)
-        {
-            int i = int.MinValue;
-            return int.TryParse(s, out i);
-        }
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
+namespace WebApplication1
+{
+    public partial class getImgFromHtml : System.Web.UI.Page
+    {
         /// <summary>
         /// 匹配页面的图片地址
         /// </summary>
         /// <param name="HtmlCode"></param>
         /// <param name="imgHttp">要补充的http://路径信息</param>
         /// <returns></returns>
-        public static List<string> GetImgSrc(string HtmlCode, string imgHttp)
+        public List<string> GetImgSrc(string HtmlCode)
         {
             List<string> list = new List<string>();
             string Reg = @"";
             Reg = "(?is)<img.*?src=(['\"]?)(?<url>[^'\" ]+)(?=\\1)[^>]*>";
             foreach (Match m in Regex.Matches(HtmlCode, Reg, RegexOptions.IgnoreCase))
             {
-                string src = m.Groups["url"].Value;
-                if (!string.IsNullOrEmpty(imgHttp) && !src.ToLower().StartsWith("http"))
-                {
-                    src = imgHttp + src;
-                }
-                list.Add(src);
+                list.Add(m.Groups["url"].Value);
             }
             return list;
+        }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            string source = @"<div><img src='http://a.com/1/55.jpg'/><li><img alt='asd' ttile=125 src='http://a.com/122/563.jpg'/></li></div>";
+
+            List<string> list = GetImgSrc(source);
+            foreach (string item in list)
+            {
+                Response.Write(item + "<br/>");
+            }
         }
     }
 }

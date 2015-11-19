@@ -16,7 +16,7 @@ namespace WebApplication1
 
             string url = "http://localhost:14977/attach/month_1308/130804113241118500.jpg";
             url = "http://static.googleadsserving.cn/pagead/imgad?id=CICAgIDQp-7xjAEQrAIY-gEyCMBPcjdgV-QB";
-            Helper.ImageHelper.OutputImg(url, 333, 222);
+            Helper.ImageHelper.OutputImg(url, 111, 222);
             context.Response.End();
 
         }
